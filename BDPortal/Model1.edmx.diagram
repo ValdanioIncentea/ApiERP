@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="eee429e7bcd14dd99be875a1b6e2f423" Name="Diagram1" ZoomLevel="135">
+        <EntityTypeShape EntityType="PRIPRHModel.FuncAgregadoFamiliar" Width="1.5" PointX="3" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PRIPRHModel.FuncHorarios" Width="1.5" PointX="3" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PRIPRHModel.FuncInfFerias" Width="1.5" PointX="3" PointY="25.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PRIPRHModel.FuncInfNatal" Width="1.5" PointX="3" PointY="30.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PRIPRHModel.FuncInfSFerias" Width="1.5" PointX="3" PointY="34.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PRIPRHModel.Funcionarios" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
+        <AssociationConnector Association="PRIPRHModel.FuncAgregadoFamiliar_Funcionarios_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="PRIPRHModel.FuncHorarios_Funcionarios_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="PRIPRHModel.FuncInfFerias_Funcionarios_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="PRIPRHModel.FuncInfNatal_Funcionarios_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="PRIPRHModel.FuncInfSFerias_Funcionarios_FK" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PRIPRHModel.Apolices" Width="1.5" PointX="6" PointY="106.75" />
+        <EntityTypeShape EntityType="PRIPRHModel.Bonificacoes" Width="1.5" PointX="6" PointY="64.375" />
+        <EntityTypeShape EntityType="PRIPRHModel.Cargos" Width="1.5" PointX="6" PointY="71" />
+        <EntityTypeShape EntityType="PRIPRHModel.Categorias" Width="1.5" PointX="3.75" PointY="51" />
+        <EntityTypeShape EntityType="PRIPRHModel.CategoriasEscaloes" Width="1.5" PointX="6" PointY="101.25" />
+        <EntityTypeShape EntityType="PRIPRHModel.ContratosTrabalho" Width="1.5" PointX="6" PointY="93.25" />
+        <EntityTypeShape EntityType="PRIPRHModel.Departamentos" Width="1.5" PointX="6" PointY="120.25" />
+        <EntityTypeShape EntityType="PRIPRHModel.Estabelecimentos" Width="1.5" PointX="6" PointY="79.25" />
+        <EntityTypeShape EntityType="PRIPRHModel.FuncFormasPagamento" Width="1.5" PointX="11.25" PointY="33.875" />
+        <EntityTypeShape EntityType="PRIPRHModel.FuncRem" Width="1.5" PointX="8.25" PointY="39.25" />
+        <EntityTypeShape EntityType="PRIPRHModel.GruposCotizacao" Width="1.5" PointX="6" PointY="104.25" />
+        <EntityTypeShape EntityType="PRIPRHModel.Habilitacoes" Width="1.5" PointX="6" PointY="73.625" />
+        <EntityTypeShape EntityType="PRIPRHModel.Instrumentos" Width="1.5" PointX="6" PointY="126.25" />
+        <EntityTypeShape EntityType="PRIPRHModel.Moedas" Width="1.5" PointX="3.75" PointY="58.875" />
+        <EntityTypeShape EntityType="PRIPRHModel.MotivosAdmissao" Width="1.5" PointX="6" PointY="76.75" />
+        <EntityTypeShape EntityType="PRIPRHModel.MotivosSaida" Width="1.5" PointX="3.75" PointY="71" />
+        <EntityTypeShape EntityType="PRIPRHModel.Nacionalidades" Width="1.5" PointX="6" PointY="123" />
+        <EntityTypeShape EntityType="PRIPRHModel.Ocorrencias" Width="1.5" PointX="5.625" PointY="0.75" />
+        <EntityTypeShape EntityType="PRIPRHModel.Paises" Width="1.5" PointX="3.75" PointY="65.25" />
+        <EntityTypeShape EntityType="PRIPRHModel.Profissoes" Width="1.5" PointX="6" PointY="56.25" />
+        <EntityTypeShape EntityType="PRIPRHModel.RegimesTrabalho" Width="1.5" PointX="6" PointY="68.75" />
+        <EntityTypeShape EntityType="PRIPRHModel.RepFinancas" Width="1.5" PointX="3.75" PointY="46.625" />
+        <EntityTypeShape EntityType="PRIPRHModel.SegSocial" Width="1.5" PointX="0.75" PointY="48.625" />
+        <EntityTypeShape EntityType="PRIPRHModel.Sindicatos" Width="1.5" PointX="6" PointY="113.25" />
+        <EntityTypeShape EntityType="PRIPRHModel.SituacoesCGA" Width="1.5" PointX="8.375" PointY="26" />
+        <EntityTypeShape EntityType="PRIPRHModel.SituacoesGAB" Width="1.5" PointX="7.625" PointY="0.75" />
+        <EntityTypeShape EntityType="PRIPRHModel.SobretaxaIRS" Width="1.5" PointX="8.625" PointY="3.75" />
+        <EntityTypeShape EntityType="PRIPRHModel.TiposAusencia" Width="1.5" PointX="6" PointY="141.625" />
+        <EntityTypeShape EntityType="PRIPRHModel.TiposFaltas" Width="1.5" PointX="9.625" PointY="0.75" />
+        <EntityTypeShape EntityType="PRIPRHModel.TiposHorarios" Width="1.5" PointX="10.625" PointY="3.75" />
+        <EntityTypeShape EntityType="PRIPRHModel.TiposPessoal" Width="1.5" PointX="6" PointY="61.75" />
+        <EntityTypeShape EntityType="PRIPRHModel.TiposRecursos" Width="1.5" PointX="11.625" PointY="0.75" />
+        <EntityTypeShape EntityType="PRIPRHModel.TiposRendimento" Width="1.5" PointX="6" PointY="96.625" />
+        <EntityTypeShape EntityType="PRIPRHModel.TurnosHoras" Width="1.5" PointX="6" PointY="59.125" />
+        <AssociationConnector Association="PRIPRHModel.Apolices_Moedas_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_Apolices_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_Bonificacoes_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_Cargos_FK" />
+        <AssociationConnector Association="PRIPRHModel.CategoriasEscaloes_Categorias_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_Categorias_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_CategoriasEscaloes_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_ContratosTrabalho_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_Departamentos_FK" />
+        <AssociationConnector Association="PRIPRHModel.Estabelecimentos_RepFinancas_FK" />
+        <AssociationConnector Association="PRIPRHModel.Estabelecimentos_SegSocial_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_Estabelecimentos_FK" />
+        <AssociationConnector Association="PRIPRHModel.FuncFormasPagamento_Funcionarios_FK" />
+        <AssociationConnector Association="PRIPRHModel.FuncFormasPagamento_Moedas_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_GruposCotizacao_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_Habilitacoes_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_Instrumentos_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_Moedas_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_MotivoAdmissao_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_MotivosSaida_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_Nacionalidades_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_Paises_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_Profissoes_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_RegimesTrabalho_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_RepFinancas_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_SegSocial_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_Sindicatos_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_SituacoesCGA_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_TiposPessoal_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_TiposRendimento_FK" />
+        <AssociationConnector Association="PRIPRHModel.Funcionarios_TurnosHoras_FK" />
+        <AssociationConnector Association="PRIPRHModel.FuncRem_Funcionarios_FK" />
+        <AssociationConnector Association="PRIPRHModel.Instrumentos_Instrumentos_FK" />
+        <AssociationConnector Association="PRIPRHModel.Instrumentos_MotivosSaida_FK" />
+        <AssociationConnector Association="PRIPRHModel.Sindicatos_Moedas_FK" />
+        <AssociationConnector Association="PRIPRHModel.Nacionalidades_Paises_FK" />
+        <AssociationConnector Association="PRIPRHModel.TiposAusencia_SituacoesCGA_FK" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

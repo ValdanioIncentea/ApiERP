@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8ae13784e245404db4e94fa9aaffefa1" Name="Diagram1" ZoomLevel="17">
+        <EntityTypeShape EntityType="PRIPOWERBIModel.Artigo" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PRIPOWERBIModel.ArtigoMoeda" Width="1.5" PointX="5.25" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PRIPOWERBIModel.Familias" Width="1.5" PointX="0.75" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PRIPOWERBIModel.V_Entidades" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="PRIPOWERBIModel.Artigo_Artigo_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="PRIPOWERBIModel.Artigo_Familias_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="PRIPOWERBIModel.ArtigoMoeda_Artigo_FK" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

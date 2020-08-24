@@ -1,0 +1,887 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PRIPOWERBIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Artigo">
+          <Key>
+            <PropertyRef Name="Artigo" />
+          </Key>
+          <Property Name="Artigo" Type="nvarchar" MaxLength="48" Nullable="false" />
+          <Property Name="Descricao" Type="nvarchar" MaxLength="50" />
+          <Property Name="CodBarras" Type="nvarchar" MaxLength="48" />
+          <Property Name="UnidadeVenda" Type="nvarchar" MaxLength="5" />
+          <Property Name="UnidadeBase" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Iva" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="Desconto" Type="real" />
+          <Property Name="Fornecedor" Type="nvarchar" MaxLength="12" />
+          <Property Name="STKMinimo" Type="float" />
+          <Property Name="STKMaximo" Type="float" />
+          <Property Name="STKReposicao" Type="float" />
+          <Property Name="STKActual" Type="float" />
+          <Property Name="PCMedio" Type="float" />
+          <Property Name="PCUltimo" Type="float" />
+          <Property Name="MovStock" Type="nvarchar" MaxLength="1" />
+          <Property Name="DataUltEntrada" Type="datetime" />
+          <Property Name="DataUltSaida" Type="datetime" />
+          <Property Name="Familia" Type="nvarchar" MaxLength="10" />
+          <Property Name="ArtSubstituto" Type="nvarchar" MaxLength="48" />
+          <Property Name="ArtAssociado" Type="nvarchar" MaxLength="48" />
+          <Property Name="ArmazemSugestao" Type="nvarchar" MaxLength="5" />
+          <Property Name="TipoArtigo" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="TipoComponente" Type="smallint" />
+          <Property Name="NecessarioRecalcPCM" Type="bit" Nullable="false" />
+          <Property Name="PCPadrao" Type="float" />
+          <Property Name="SugestaoPrComposto" Type="smallint" />
+          <Property Name="UltDescontoComercialCompra" Type="float" />
+          <Property Name="UltDespesaAdicionalCompra" Type="float" />
+          <Property Name="PrazoEntrega" Type="smallint" />
+          <Property Name="QtdEconomica" Type="float" />
+          <Property Name="FormulaVendas" Type="nvarchar" MaxLength="5" />
+          <Property Name="UltimoFornecedor" Type="nvarchar" MaxLength="12" />
+          <Property Name="SubFamilia" Type="nvarchar" MaxLength="10" />
+          <Property Name="UltimoTipoDoc" Type="nvarchar" MaxLength="5" />
+          <Property Name="UltimoNumDoc" Type="int" />
+          <Property Name="Peso" Type="float" />
+          <Property Name="Volume" Type="float" />
+          <Property Name="Marca" Type="nvarchar" MaxLength="10" />
+          <Property Name="Garantia" Type="nvarchar" MaxLength="3" />
+          <Property Name="ArtigoAnulado" Type="bit" Nullable="false" />
+          <Property Name="TratamentoSeries" Type="bit" Nullable="false" />
+          <Property Name="TratamentoLotes" Type="bit" Nullable="false" />
+          <Property Name="LoteFormulaEntradas" Type="bit" Nullable="false" />
+          <Property Name="LoteEntradas" Type="nvarchar" MaxLength="20" />
+          <Property Name="LoteFormulaSaidas" Type="bit" Nullable="false" />
+          <Property Name="LoteSaidas" Type="nvarchar" MaxLength="20" />
+          <Property Name="FormulaCompras" Type="nvarchar" MaxLength="5" />
+          <Property Name="UltimoNumSerie" Type="nvarchar" MaxLength="50" />
+          <Property Name="UltimoLote" Type="nvarchar" MaxLength="50" />
+          <Property Name="IntrastatPautal" Type="nvarchar" MaxLength="9" />
+          <Property Name="IntrastatPeso" Type="float" />
+          <Property Name="DataUltimaActualizacao" Type="datetime" />
+          <Property Name="TestaNumSerie" Type="bit" Nullable="false" />
+          <Property Name="SujeitoRetencao" Type="bit" Nullable="false" />
+          <Property Name="Observacoes" Type="ntext" />
+          <Property Name="TipoDim1" Type="nvarchar" MaxLength="15" />
+          <Property Name="TipoDim2" Type="nvarchar" MaxLength="15" />
+          <Property Name="TipoDim3" Type="nvarchar" MaxLength="15" />
+          <Property Name="Dim1" Type="nvarchar" MaxLength="20" />
+          <Property Name="Dim2" Type="nvarchar" MaxLength="20" />
+          <Property Name="Dim3" Type="nvarchar" MaxLength="20" />
+          <Property Name="DimLote" Type="bit" Nullable="false" />
+          <Property Name="TratamentoDim" Type="smallint" Nullable="false" />
+          <Property Name="Etiqueta" Type="nvarchar" MaxLength="20" />
+          <Property Name="VersaoUltAct" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="OperacaoTesouraria" Type="bit" Nullable="false" />
+          <Property Name="EntidadeOPTesouraria" Type="nvarchar" MaxLength="12" />
+          <Property Name="Modelo" Type="nvarchar" MaxLength="20" />
+          <Property Name="UnidadeCompra" Type="nvarchar" MaxLength="5" />
+          <Property Name="UnidadeEntrada" Type="nvarchar" MaxLength="5" />
+          <Property Name="UnidadeSaida" Type="nvarchar" MaxLength="5" />
+          <Property Name="UltimaSerieDoc" Type="nvarchar" MaxLength="5" />
+          <Property Name="DeduzIvaNoImo" Type="bit" Nullable="false" />
+          <Property Name="PermiteDevolucao" Type="bit" Nullable="false" />
+          <Property Name="TipoEntidadeOpTesouraria" Type="nvarchar" MaxLength="1" />
+          <Property Name="Imposto" Type="bit" Nullable="false" />
+          <Property Name="TipoDocOpTesouraria" Type="nvarchar" MaxLength="5" />
+          <Property Name="UtilizadoCCOP" Type="bit" Nullable="false" />
+          <Property Name="Pesar" Type="bit" Nullable="false" />
+          <Property Name="IdGDOC" Type="uniqueidentifier" />
+          <Property Name="SujeitoProRata" Type="bit" Nullable="false" />
+          <Property Name="PercIvaDedutivel" Type="real" />
+          <Property Name="SujeitoEcotaxa" Type="bit" Nullable="false" />
+          <Property Name="Ecovalor" Type="float" />
+          <Property Name="AfectaPCM" Type="bit" Nullable="false" />
+          <Property Name="LocalizacaoSugestao" Type="varchar" MaxLength="30" />
+          <Property Name="ArtigoPai" Type="nvarchar" MaxLength="48" />
+          <Property Name="OrdemDim" Type="int" />
+          <Property Name="RubDim1" Type="nvarchar" MaxLength="10" />
+          <Property Name="RubDim2" Type="nvarchar" MaxLength="10" />
+          <Property Name="RubDim3" Type="nvarchar" MaxLength="10" />
+          <Property Name="IDTipoOrigemGPR" Type="tinyint" />
+          <Property Name="FabCompAutoGPR" Type="bit" Nullable="false" />
+          <Property Name="CalcNecessidadesGPR" Type="bit" Nullable="false" />
+          <Property Name="QtReservadaGPR" Type="real" />
+          <Property Name="QtReceberGPR" Type="real" />
+          <Property Name="IDTipoProducaoGPR" Type="tinyint" />
+          <Property Name="DesperdicioGPR" Type="real" />
+          <Property Name="UtilizadoGPR" Type="bit" Nullable="false" />
+          <Property Name="PercIncidenciaIVA" Type="float" />
+          <Property Name="NaturezaAnalitica" Type="int" />
+          <Property Name="IdClassificacao" Type="uniqueidentifier" />
+          <Property Name="FormulaGPR" Type="nvarchar" MaxLength="5" />
+          <Property Name="SequenciaGPR" Type="int" />
+          <Property Name="CDU_CampoVar1" Type="nvarchar" MaxLength="15" />
+          <Property Name="CDU_CampoVar2" Type="nvarchar" MaxLength="15" />
+          <Property Name="CDU_CampoVar3" Type="nvarchar" MaxLength="15" />
+          <Property Name="DesactivadoGPR" Type="bit" />
+          <Property Name="DataDesactivacaoGPR" Type="datetime" />
+          <Property Name="SujeitoIEC" Type="bit" />
+          <Property Name="CategoriaIEC" Type="nvarchar" MaxLength="10" />
+          <Property Name="CodigoTaric" Type="nvarchar" MaxLength="14" />
+          <Property Name="EmbalagemIEC" Type="nvarchar" MaxLength="2" />
+          <Property Name="CapacidadeEmbIEC" Type="float" />
+          <Property Name="UnidadeTaric" Type="nvarchar" MaxLength="5" />
+          <Property Name="FactConvIEC" Type="float" />
+          <Property Name="ValorIEC" Type="float" />
+          <Property Name="TaxaAlcool" Type="float" />
+          <Property Name="UtilManutencao" Type="bit" />
+          <Property Name="PesoLiquido" Type="float" />
+          <Property Name="GestaoSingular" Type="bit" Nullable="false" />
+          <Property Name="Selo" Type="nvarchar" MaxLength="15" />
+          <Property Name="CodigoBebidaEspirituosa" Type="varchar" MaxLength="10" />
+          <Property Name="CodigoEstampilha" Type="varchar" MaxLength="2" />
+          <Property Name="FactorUnidadeSup" Type="real" Nullable="false" />
+          <Property Name="GrupoCenariosCompras" Type="nvarchar" MaxLength="20" />
+          <Property Name="IsentoPagDireitos" Type="bit" Nullable="false" />
+          <Property Name="CodigoPautal" Type="nvarchar" MaxLength="15" />
+          <Property Name="ControlaTransformacaoValor" Type="bit" />
+          <Property Name="CodigoCPV" Type="nvarchar" MaxLength="10" />
+          <Property Name="IsentoIEC" Type="bit" Nullable="false" />
+          <Property Name="CodigoIsentoIEC" Type="nvarchar" MaxLength="4" />
+          <Property Name="TipoCusteio" Type="tinyint" Nullable="false" />
+          <Property Name="IdTransferencia" Type="uniqueidentifier" />
+          <Property Name="DataTransferencia" Type="datetime" />
+          <Property Name="DataCustoPadrao" Type="datetime" />
+          <Property Name="CodigoAdicionalAltIEC" Type="int" />
+          <Property Name="SujeitoRetencaoArtigo" Type="bit" />
+          <Property Name="RetencaoArtigoValor" Type="float" />
+          <Property Name="RetencaoArtigoTipoValor" Type="bit" />
+          <Property Name="eGAR_LER" Type="varchar" MaxLength="128" />
+          <Property Name="eGAR_Grupo" Type="varchar" MaxLength="100" />
+          <Property Name="NumeroONU" Type="nvarchar" MaxLength="11" />
+          <Property Name="GrupoEmbalagem" Type="nvarchar" MaxLength="4" />
+          <Property Name="ClasseArtigoTaxFree" Type="nvarchar" MaxLength="3" />
+          <Property Name="LastIndexDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ArtigoMoeda">
+          <Key>
+            <PropertyRef Name="Artigo" />
+            <PropertyRef Name="Moeda" />
+            <PropertyRef Name="Unidade" />
+          </Key>
+          <Property Name="Artigo" Type="nvarchar" MaxLength="48" Nullable="false" />
+          <Property Name="Moeda" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="PVP1" Type="float" />
+          <Property Name="PVP2" Type="float" />
+          <Property Name="PVP3" Type="float" />
+          <Property Name="PVP4" Type="float" />
+          <Property Name="PVP5" Type="float" />
+          <Property Name="PVP6" Type="float" />
+          <Property Name="VersaoUltAct" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="Unidade" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="PVP1IvaIncluido" Type="bit" Nullable="false" />
+          <Property Name="PVP2IvaIncluido" Type="bit" Nullable="false" />
+          <Property Name="PVP3IvaIncluido" Type="bit" Nullable="false" />
+          <Property Name="PVP4IvaIncluido" Type="bit" Nullable="false" />
+          <Property Name="PVP5IvaIncluido" Type="bit" Nullable="false" />
+          <Property Name="PVP6IvaIncluido" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Familias">
+          <Key>
+            <PropertyRef Name="Familia" />
+          </Key>
+          <Property Name="Familia" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Descricao" Type="nvarchar" MaxLength="35" />
+          <Property Name="DataUltimaActualizacao" Type="datetime" />
+          <Property Name="Etiqueta" Type="nvarchar" MaxLength="20" />
+          <Property Name="TipoDim1" Type="nvarchar" MaxLength="15" />
+          <Property Name="TipoDim2" Type="nvarchar" MaxLength="15" />
+          <Property Name="TipoDim3" Type="nvarchar" MaxLength="15" />
+          <Property Name="Dim1" Type="nvarchar" MaxLength="20" />
+          <Property Name="Dim2" Type="nvarchar" MaxLength="20" />
+          <Property Name="Dim3" Type="nvarchar" MaxLength="20" />
+          <Property Name="VersaoUltAct" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="PermiteDevolucao" Type="bit" />
+          <Property Name="NaturezaAnalitica" Type="int" />
+          <Property Name="UtilizadoCCOP" Type="bit" Nullable="false" />
+          <Property Name="IdPastaCCOP" Type="int" />
+          <Property Name="GrupoCenariosCompras" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'PRIPOWERBI.dbo.V_Entidades' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="V_Entidades">
+          <Key>
+            <PropertyRef Name="Entidade" />
+            <PropertyRef Name="ActividadeEmpresarial" />
+            <PropertyRef Name="TrataIvaCaixa" />
+          </Key>
+          <Property Name="TipoEntidade" Type="nvarchar" MaxLength="1" />
+          <Property Name="Entidade" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="80" />
+          <Property Name="NomeFiscal" Type="nvarchar" MaxLength="80" />
+          <Property Name="Morada" Type="nvarchar" MaxLength="80" />
+          <Property Name="Morada2" Type="nvarchar" MaxLength="50" />
+          <Property Name="Localidade" Type="nvarchar" MaxLength="80" />
+          <Property Name="Cp" Type="nvarchar" MaxLength="15" />
+          <Property Name="CpLoc" Type="nvarchar" MaxLength="50" />
+          <Property Name="Distrito" Type="varchar" MaxLength="2" />
+          <Property Name="Tel" Type="nvarchar" MaxLength="20" />
+          <Property Name="Fax" Type="nvarchar" MaxLength="20" />
+          <Property Name="NumContrib" Type="nvarchar" MaxLength="20" />
+          <Property Name="TextoExcepcaoRetencao" Type="nvarchar" MaxLength="100" />
+          <Property Name="EfectuaRetencao" Type="bit" />
+          <Property Name="Pais" Type="nvarchar" MaxLength="2" />
+          <Property Name="TipoMercado" Type="nvarchar" MaxLength="1" />
+          <Property Name="GestaoDiasPag" Type="bit" />
+          <Property Name="DiaPagamento1" Type="tinyint" />
+          <Property Name="DiaPagamento2" Type="tinyint" />
+          <Property Name="DiaPagamento3" Type="tinyint" />
+          <Property Name="NumDiasRetrocesso" Type="tinyint" />
+          <Property Name="ContribuinteNaoResidente" Type="nvarchar" MaxLength="20" />
+          <Property Name="EnderecoWeb" Type="nvarchar" MaxLength="512" />
+          <Property Name="DataCriacao" Type="datetime" />
+          <Property Name="ActividadeEmpresarial" Type="int" Nullable="false" />
+          <Property Name="TrataIvaCaixa" Type="int" Nullable="false" />
+          <Property Name="ExcluirRecap" Type="bit" />
+          <Property Name="NaturezaEntidade" Type="nvarchar" MaxLength="1" />
+          <Property Name="TipoTerceiro" Type="nvarchar" MaxLength="3" />
+        </EntityType>
+        <Association Name="Artigo_Artigo_FK">
+          <End Role="Artigo" Type="Self.Artigo" Multiplicity="0..1" />
+          <End Role="Artigo1" Type="Self.Artigo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artigo">
+              <PropertyRef Name="Artigo" />
+            </Principal>
+            <Dependent Role="Artigo1">
+              <PropertyRef Name="ArtigoPai" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Artigo_Familias_FK">
+          <End Role="Familias" Type="Self.Familias" Multiplicity="0..1" />
+          <End Role="Artigo" Type="Self.Artigo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Familias">
+              <PropertyRef Name="Familia" />
+            </Principal>
+            <Dependent Role="Artigo">
+              <PropertyRef Name="Familia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ArtigoMoeda_Artigo_FK">
+          <End Role="Artigo" Type="Self.Artigo" Multiplicity="1" />
+          <End Role="ArtigoMoeda" Type="Self.ArtigoMoeda" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artigo">
+              <PropertyRef Name="Artigo" />
+            </Principal>
+            <Dependent Role="ArtigoMoeda">
+              <PropertyRef Name="Artigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PRIPOWERBIModelStoreContainer">
+          <EntitySet Name="Artigo" EntityType="Self.Artigo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArtigoMoeda" EntityType="Self.ArtigoMoeda" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Familias" EntityType="Self.Familias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="V_Entidades" EntityType="Self.V_Entidades" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Entidades].[TipoEntidade] AS [TipoEntidade], 
+    [V_Entidades].[Entidade] AS [Entidade], 
+    [V_Entidades].[Nome] AS [Nome], 
+    [V_Entidades].[NomeFiscal] AS [NomeFiscal], 
+    [V_Entidades].[Morada] AS [Morada], 
+    [V_Entidades].[Morada2] AS [Morada2], 
+    [V_Entidades].[Localidade] AS [Localidade], 
+    [V_Entidades].[Cp] AS [Cp], 
+    [V_Entidades].[CpLoc] AS [CpLoc], 
+    [V_Entidades].[Distrito] AS [Distrito], 
+    [V_Entidades].[Tel] AS [Tel], 
+    [V_Entidades].[Fax] AS [Fax], 
+    [V_Entidades].[NumContrib] AS [NumContrib], 
+    [V_Entidades].[TextoExcepcaoRetencao] AS [TextoExcepcaoRetencao], 
+    [V_Entidades].[EfectuaRetencao] AS [EfectuaRetencao], 
+    [V_Entidades].[Pais] AS [Pais], 
+    [V_Entidades].[TipoMercado] AS [TipoMercado], 
+    [V_Entidades].[GestaoDiasPag] AS [GestaoDiasPag], 
+    [V_Entidades].[DiaPagamento1] AS [DiaPagamento1], 
+    [V_Entidades].[DiaPagamento2] AS [DiaPagamento2], 
+    [V_Entidades].[DiaPagamento3] AS [DiaPagamento3], 
+    [V_Entidades].[NumDiasRetrocesso] AS [NumDiasRetrocesso], 
+    [V_Entidades].[ContribuinteNaoResidente] AS [ContribuinteNaoResidente], 
+    [V_Entidades].[EnderecoWeb] AS [EnderecoWeb], 
+    [V_Entidades].[DataCriacao] AS [DataCriacao], 
+    [V_Entidades].[ActividadeEmpresarial] AS [ActividadeEmpresarial], 
+    [V_Entidades].[TrataIvaCaixa] AS [TrataIvaCaixa], 
+    [V_Entidades].[ExcluirRecap] AS [ExcluirRecap], 
+    [V_Entidades].[NaturezaEntidade] AS [NaturezaEntidade], 
+    [V_Entidades].[TipoTerceiro] AS [TipoTerceiro]
+    FROM [dbo].[V_Entidades] AS [V_Entidades]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="Artigo_Artigo_FK" Association="Self.Artigo_Artigo_FK">
+            <End Role="Artigo" EntitySet="Artigo" />
+            <End Role="Artigo1" EntitySet="Artigo" />
+          </AssociationSet>
+          <AssociationSet Name="Artigo_Familias_FK" Association="Self.Artigo_Familias_FK">
+            <End Role="Familias" EntitySet="Familias" />
+            <End Role="Artigo" EntitySet="Artigo" />
+          </AssociationSet>
+          <AssociationSet Name="ArtigoMoeda_Artigo_FK" Association="Self.ArtigoMoeda_Artigo_FK">
+            <End Role="Artigo" EntitySet="Artigo" />
+            <End Role="ArtigoMoeda" EntitySet="ArtigoMoeda" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PRIPOWERBIModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Artigo">
+          <Key>
+            <PropertyRef Name="Artigo1" />
+          </Key>
+          <Property Name="Artigo1" Type="String" MaxLength="48" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Descricao" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CodBarras" Type="String" MaxLength="48" FixedLength="false" Unicode="true" />
+          <Property Name="UnidadeVenda" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="UnidadeBase" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Iva" Type="String" MaxLength="2" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Desconto" Type="Single" />
+          <Property Name="Fornecedor" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="STKMinimo" Type="Double" />
+          <Property Name="STKMaximo" Type="Double" />
+          <Property Name="STKReposicao" Type="Double" />
+          <Property Name="STKActual" Type="Double" />
+          <Property Name="PCMedio" Type="Double" />
+          <Property Name="PCUltimo" Type="Double" />
+          <Property Name="MovStock" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="DataUltEntrada" Type="DateTime" Precision="3" />
+          <Property Name="DataUltSaida" Type="DateTime" Precision="3" />
+          <Property Name="Familia" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ArtSubstituto" Type="String" MaxLength="48" FixedLength="false" Unicode="true" />
+          <Property Name="ArtAssociado" Type="String" MaxLength="48" FixedLength="false" Unicode="true" />
+          <Property Name="ArmazemSugestao" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="TipoArtigo" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TipoComponente" Type="Int16" />
+          <Property Name="NecessarioRecalcPCM" Type="Boolean" Nullable="false" />
+          <Property Name="PCPadrao" Type="Double" />
+          <Property Name="SugestaoPrComposto" Type="Int16" />
+          <Property Name="UltDescontoComercialCompra" Type="Double" />
+          <Property Name="UltDespesaAdicionalCompra" Type="Double" />
+          <Property Name="PrazoEntrega" Type="Int16" />
+          <Property Name="QtdEconomica" Type="Double" />
+          <Property Name="FormulaVendas" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="UltimoFornecedor" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="SubFamilia" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="UltimoTipoDoc" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="UltimoNumDoc" Type="Int32" />
+          <Property Name="Peso" Type="Double" />
+          <Property Name="Volume" Type="Double" />
+          <Property Name="Marca" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Garantia" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="ArtigoAnulado" Type="Boolean" Nullable="false" />
+          <Property Name="TratamentoSeries" Type="Boolean" Nullable="false" />
+          <Property Name="TratamentoLotes" Type="Boolean" Nullable="false" />
+          <Property Name="LoteFormulaEntradas" Type="Boolean" Nullable="false" />
+          <Property Name="LoteEntradas" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="LoteFormulaSaidas" Type="Boolean" Nullable="false" />
+          <Property Name="LoteSaidas" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="FormulaCompras" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="UltimoNumSerie" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UltimoLote" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IntrastatPautal" Type="String" MaxLength="9" FixedLength="false" Unicode="true" />
+          <Property Name="IntrastatPeso" Type="Double" />
+          <Property Name="DataUltimaActualizacao" Type="DateTime" Precision="3" />
+          <Property Name="TestaNumSerie" Type="Boolean" Nullable="false" />
+          <Property Name="SujeitoRetencao" Type="Boolean" Nullable="false" />
+          <Property Name="Observacoes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TipoDim1" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="TipoDim2" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="TipoDim3" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Dim1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Dim2" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Dim3" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="DimLote" Type="Boolean" Nullable="false" />
+          <Property Name="TratamentoDim" Type="Int16" Nullable="false" />
+          <Property Name="Etiqueta" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="VersaoUltAct" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="OperacaoTesouraria" Type="Boolean" Nullable="false" />
+          <Property Name="EntidadeOPTesouraria" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Modelo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UnidadeCompra" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="UnidadeEntrada" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="UnidadeSaida" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="UltimaSerieDoc" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="DeduzIvaNoImo" Type="Boolean" Nullable="false" />
+          <Property Name="PermiteDevolucao" Type="Boolean" Nullable="false" />
+          <Property Name="TipoEntidadeOpTesouraria" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="Imposto" Type="Boolean" Nullable="false" />
+          <Property Name="TipoDocOpTesouraria" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="UtilizadoCCOP" Type="Boolean" Nullable="false" />
+          <Property Name="Pesar" Type="Boolean" Nullable="false" />
+          <Property Name="IdGDOC" Type="Guid" />
+          <Property Name="SujeitoProRata" Type="Boolean" Nullable="false" />
+          <Property Name="PercIvaDedutivel" Type="Single" />
+          <Property Name="SujeitoEcotaxa" Type="Boolean" Nullable="false" />
+          <Property Name="Ecovalor" Type="Double" />
+          <Property Name="AfectaPCM" Type="Boolean" Nullable="false" />
+          <Property Name="LocalizacaoSugestao" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ArtigoPai" Type="String" MaxLength="48" FixedLength="false" Unicode="true" />
+          <Property Name="OrdemDim" Type="Int32" />
+          <Property Name="RubDim1" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="RubDim2" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="RubDim3" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IDTipoOrigemGPR" Type="Byte" />
+          <Property Name="FabCompAutoGPR" Type="Boolean" Nullable="false" />
+          <Property Name="CalcNecessidadesGPR" Type="Boolean" Nullable="false" />
+          <Property Name="QtReservadaGPR" Type="Single" />
+          <Property Name="QtReceberGPR" Type="Single" />
+          <Property Name="IDTipoProducaoGPR" Type="Byte" />
+          <Property Name="DesperdicioGPR" Type="Single" />
+          <Property Name="UtilizadoGPR" Type="Boolean" Nullable="false" />
+          <Property Name="PercIncidenciaIVA" Type="Double" />
+          <Property Name="NaturezaAnalitica" Type="Int32" />
+          <Property Name="IdClassificacao" Type="Guid" />
+          <Property Name="FormulaGPR" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="SequenciaGPR" Type="Int32" />
+          <Property Name="CDU_CampoVar1" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="CDU_CampoVar2" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="CDU_CampoVar3" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="DesactivadoGPR" Type="Boolean" />
+          <Property Name="DataDesactivacaoGPR" Type="DateTime" Precision="3" />
+          <Property Name="SujeitoIEC" Type="Boolean" />
+          <Property Name="CategoriaIEC" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CodigoTaric" Type="String" MaxLength="14" FixedLength="false" Unicode="true" />
+          <Property Name="EmbalagemIEC" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="CapacidadeEmbIEC" Type="Double" />
+          <Property Name="UnidadeTaric" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="FactConvIEC" Type="Double" />
+          <Property Name="ValorIEC" Type="Double" />
+          <Property Name="TaxaAlcool" Type="Double" />
+          <Property Name="UtilManutencao" Type="Boolean" />
+          <Property Name="PesoLiquido" Type="Double" />
+          <Property Name="GestaoSingular" Type="Boolean" Nullable="false" />
+          <Property Name="Selo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="CodigoBebidaEspirituosa" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoEstampilha" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="FactorUnidadeSup" Type="Single" Nullable="false" />
+          <Property Name="GrupoCenariosCompras" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsentoPagDireitos" Type="Boolean" Nullable="false" />
+          <Property Name="CodigoPautal" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="ControlaTransformacaoValor" Type="Boolean" />
+          <Property Name="CodigoCPV" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IsentoIEC" Type="Boolean" Nullable="false" />
+          <Property Name="CodigoIsentoIEC" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="TipoCusteio" Type="Byte" Nullable="false" />
+          <Property Name="IdTransferencia" Type="Guid" />
+          <Property Name="DataTransferencia" Type="DateTime" Precision="3" />
+          <Property Name="DataCustoPadrao" Type="DateTime" Precision="3" />
+          <Property Name="CodigoAdicionalAltIEC" Type="Int32" />
+          <Property Name="SujeitoRetencaoArtigo" Type="Boolean" />
+          <Property Name="RetencaoArtigoValor" Type="Double" />
+          <Property Name="RetencaoArtigoTipoValor" Type="Boolean" />
+          <Property Name="eGAR_LER" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="eGAR_Grupo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroONU" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="GrupoEmbalagem" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="ClasseArtigoTaxFree" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="LastIndexDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Artigo11" Relationship="Self.Artigo_Artigo_FK" FromRole="Artigo" ToRole="Artigo1" />
+          <NavigationProperty Name="Artigo2" Relationship="Self.Artigo_Artigo_FK" FromRole="Artigo1" ToRole="Artigo" />
+          <NavigationProperty Name="Familias" Relationship="Self.Artigo_Familias_FK" FromRole="Artigo" ToRole="Familias" />
+          <NavigationProperty Name="ArtigoMoeda" Relationship="Self.ArtigoMoeda_Artigo_FK" FromRole="Artigo" ToRole="ArtigoMoeda" />
+        </EntityType>
+        <EntityType Name="ArtigoMoeda">
+          <Key>
+            <PropertyRef Name="Artigo" />
+            <PropertyRef Name="Moeda" />
+            <PropertyRef Name="Unidade" />
+          </Key>
+          <Property Name="Artigo" Type="String" MaxLength="48" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Moeda" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PVP1" Type="Double" />
+          <Property Name="PVP2" Type="Double" />
+          <Property Name="PVP3" Type="Double" />
+          <Property Name="PVP4" Type="Double" />
+          <Property Name="PVP5" Type="Double" />
+          <Property Name="PVP6" Type="Double" />
+          <Property Name="VersaoUltAct" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Unidade" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PVP1IvaIncluido" Type="Boolean" Nullable="false" />
+          <Property Name="PVP2IvaIncluido" Type="Boolean" Nullable="false" />
+          <Property Name="PVP3IvaIncluido" Type="Boolean" Nullable="false" />
+          <Property Name="PVP4IvaIncluido" Type="Boolean" Nullable="false" />
+          <Property Name="PVP5IvaIncluido" Type="Boolean" Nullable="false" />
+          <Property Name="PVP6IvaIncluido" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Artigo1" Relationship="Self.ArtigoMoeda_Artigo_FK" FromRole="ArtigoMoeda" ToRole="Artigo" />
+        </EntityType>
+        <EntityType Name="Familias">
+          <Key>
+            <PropertyRef Name="Familia" />
+          </Key>
+          <Property Name="Familia" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Descricao" Type="String" MaxLength="35" FixedLength="false" Unicode="true" />
+          <Property Name="DataUltimaActualizacao" Type="DateTime" Precision="3" />
+          <Property Name="Etiqueta" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="TipoDim1" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="TipoDim2" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="TipoDim3" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Dim1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Dim2" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Dim3" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="VersaoUltAct" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="PermiteDevolucao" Type="Boolean" />
+          <Property Name="NaturezaAnalitica" Type="Int32" />
+          <Property Name="UtilizadoCCOP" Type="Boolean" Nullable="false" />
+          <Property Name="IdPastaCCOP" Type="Int32" />
+          <Property Name="GrupoCenariosCompras" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Artigo" Relationship="Self.Artigo_Familias_FK" FromRole="Familias" ToRole="Artigo" />
+        </EntityType>
+        <EntityType Name="V_Entidades">
+          <Key>
+            <PropertyRef Name="Entidade" />
+            <PropertyRef Name="ActividadeEmpresarial" />
+            <PropertyRef Name="TrataIvaCaixa" />
+          </Key>
+          <Property Name="TipoEntidade" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="Entidade" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="NomeFiscal" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Morada" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Morada2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Localidade" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Cp" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="CpLoc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Distrito" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="Tel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Fax" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="NumContrib" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="TextoExcepcaoRetencao" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EfectuaRetencao" Type="Boolean" />
+          <Property Name="Pais" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="TipoMercado" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="GestaoDiasPag" Type="Boolean" />
+          <Property Name="DiaPagamento1" Type="Byte" />
+          <Property Name="DiaPagamento2" Type="Byte" />
+          <Property Name="DiaPagamento3" Type="Byte" />
+          <Property Name="NumDiasRetrocesso" Type="Byte" />
+          <Property Name="ContribuinteNaoResidente" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EnderecoWeb" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="DataCriacao" Type="DateTime" Precision="3" />
+          <Property Name="ActividadeEmpresarial" Type="Int32" Nullable="false" />
+          <Property Name="TrataIvaCaixa" Type="Int32" Nullable="false" />
+          <Property Name="ExcluirRecap" Type="Boolean" />
+          <Property Name="NaturezaEntidade" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="TipoTerceiro" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="Artigo_Artigo_FK">
+          <End Role="Artigo" Type="Self.Artigo" Multiplicity="0..1" />
+          <End Role="Artigo1" Type="Self.Artigo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artigo">
+              <PropertyRef Name="Artigo1" />
+            </Principal>
+            <Dependent Role="Artigo1">
+              <PropertyRef Name="ArtigoPai" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Artigo_Familias_FK">
+          <End Role="Familias" Type="Self.Familias" Multiplicity="0..1" />
+          <End Role="Artigo" Type="Self.Artigo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Familias">
+              <PropertyRef Name="Familia" />
+            </Principal>
+            <Dependent Role="Artigo">
+              <PropertyRef Name="Familia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ArtigoMoeda_Artigo_FK">
+          <End Role="Artigo" Type="Self.Artigo" Multiplicity="1" />
+          <End Role="ArtigoMoeda" Type="Self.ArtigoMoeda" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artigo">
+              <PropertyRef Name="Artigo1" />
+            </Principal>
+            <Dependent Role="ArtigoMoeda">
+              <PropertyRef Name="Artigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PRIPOWERBIEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Artigo" EntityType="Self.Artigo" />
+          <EntitySet Name="ArtigoMoeda" EntityType="Self.ArtigoMoeda" />
+          <EntitySet Name="Familias" EntityType="Self.Familias" />
+          <EntitySet Name="V_Entidades" EntityType="Self.V_Entidades" />
+          <AssociationSet Name="Artigo_Artigo_FK" Association="Self.Artigo_Artigo_FK">
+            <End Role="Artigo" EntitySet="Artigo" />
+            <End Role="Artigo1" EntitySet="Artigo" />
+          </AssociationSet>
+          <AssociationSet Name="Artigo_Familias_FK" Association="Self.Artigo_Familias_FK">
+            <End Role="Familias" EntitySet="Familias" />
+            <End Role="Artigo" EntitySet="Artigo" />
+          </AssociationSet>
+          <AssociationSet Name="ArtigoMoeda_Artigo_FK" Association="Self.ArtigoMoeda_Artigo_FK">
+            <End Role="Artigo" EntitySet="Artigo" />
+            <End Role="ArtigoMoeda" EntitySet="ArtigoMoeda" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PRIPOWERBIModelStoreContainer" CdmEntityContainer="PRIPOWERBIEntities">
+          <EntitySetMapping Name="Artigo">
+            <EntityTypeMapping TypeName="PRIPOWERBIModel.Artigo">
+              <MappingFragment StoreEntitySet="Artigo">
+                <ScalarProperty Name="Artigo1" ColumnName="Artigo" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="CodBarras" ColumnName="CodBarras" />
+                <ScalarProperty Name="UnidadeVenda" ColumnName="UnidadeVenda" />
+                <ScalarProperty Name="UnidadeBase" ColumnName="UnidadeBase" />
+                <ScalarProperty Name="Iva" ColumnName="Iva" />
+                <ScalarProperty Name="Desconto" ColumnName="Desconto" />
+                <ScalarProperty Name="Fornecedor" ColumnName="Fornecedor" />
+                <ScalarProperty Name="STKMinimo" ColumnName="STKMinimo" />
+                <ScalarProperty Name="STKMaximo" ColumnName="STKMaximo" />
+                <ScalarProperty Name="STKReposicao" ColumnName="STKReposicao" />
+                <ScalarProperty Name="STKActual" ColumnName="STKActual" />
+                <ScalarProperty Name="PCMedio" ColumnName="PCMedio" />
+                <ScalarProperty Name="PCUltimo" ColumnName="PCUltimo" />
+                <ScalarProperty Name="MovStock" ColumnName="MovStock" />
+                <ScalarProperty Name="DataUltEntrada" ColumnName="DataUltEntrada" />
+                <ScalarProperty Name="DataUltSaida" ColumnName="DataUltSaida" />
+                <ScalarProperty Name="Familia" ColumnName="Familia" />
+                <ScalarProperty Name="ArtSubstituto" ColumnName="ArtSubstituto" />
+                <ScalarProperty Name="ArtAssociado" ColumnName="ArtAssociado" />
+                <ScalarProperty Name="ArmazemSugestao" ColumnName="ArmazemSugestao" />
+                <ScalarProperty Name="TipoArtigo" ColumnName="TipoArtigo" />
+                <ScalarProperty Name="TipoComponente" ColumnName="TipoComponente" />
+                <ScalarProperty Name="NecessarioRecalcPCM" ColumnName="NecessarioRecalcPCM" />
+                <ScalarProperty Name="PCPadrao" ColumnName="PCPadrao" />
+                <ScalarProperty Name="SugestaoPrComposto" ColumnName="SugestaoPrComposto" />
+                <ScalarProperty Name="UltDescontoComercialCompra" ColumnName="UltDescontoComercialCompra" />
+                <ScalarProperty Name="UltDespesaAdicionalCompra" ColumnName="UltDespesaAdicionalCompra" />
+                <ScalarProperty Name="PrazoEntrega" ColumnName="PrazoEntrega" />
+                <ScalarProperty Name="QtdEconomica" ColumnName="QtdEconomica" />
+                <ScalarProperty Name="FormulaVendas" ColumnName="FormulaVendas" />
+                <ScalarProperty Name="UltimoFornecedor" ColumnName="UltimoFornecedor" />
+                <ScalarProperty Name="SubFamilia" ColumnName="SubFamilia" />
+                <ScalarProperty Name="UltimoTipoDoc" ColumnName="UltimoTipoDoc" />
+                <ScalarProperty Name="UltimoNumDoc" ColumnName="UltimoNumDoc" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="Volume" ColumnName="Volume" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="Garantia" ColumnName="Garantia" />
+                <ScalarProperty Name="ArtigoAnulado" ColumnName="ArtigoAnulado" />
+                <ScalarProperty Name="TratamentoSeries" ColumnName="TratamentoSeries" />
+                <ScalarProperty Name="TratamentoLotes" ColumnName="TratamentoLotes" />
+                <ScalarProperty Name="LoteFormulaEntradas" ColumnName="LoteFormulaEntradas" />
+                <ScalarProperty Name="LoteEntradas" ColumnName="LoteEntradas" />
+                <ScalarProperty Name="LoteFormulaSaidas" ColumnName="LoteFormulaSaidas" />
+                <ScalarProperty Name="LoteSaidas" ColumnName="LoteSaidas" />
+                <ScalarProperty Name="FormulaCompras" ColumnName="FormulaCompras" />
+                <ScalarProperty Name="UltimoNumSerie" ColumnName="UltimoNumSerie" />
+                <ScalarProperty Name="UltimoLote" ColumnName="UltimoLote" />
+                <ScalarProperty Name="IntrastatPautal" ColumnName="IntrastatPautal" />
+                <ScalarProperty Name="IntrastatPeso" ColumnName="IntrastatPeso" />
+                <ScalarProperty Name="DataUltimaActualizacao" ColumnName="DataUltimaActualizacao" />
+                <ScalarProperty Name="TestaNumSerie" ColumnName="TestaNumSerie" />
+                <ScalarProperty Name="SujeitoRetencao" ColumnName="SujeitoRetencao" />
+                <ScalarProperty Name="Observacoes" ColumnName="Observacoes" />
+                <ScalarProperty Name="TipoDim1" ColumnName="TipoDim1" />
+                <ScalarProperty Name="TipoDim2" ColumnName="TipoDim2" />
+                <ScalarProperty Name="TipoDim3" ColumnName="TipoDim3" />
+                <ScalarProperty Name="Dim1" ColumnName="Dim1" />
+                <ScalarProperty Name="Dim2" ColumnName="Dim2" />
+                <ScalarProperty Name="Dim3" ColumnName="Dim3" />
+                <ScalarProperty Name="DimLote" ColumnName="DimLote" />
+                <ScalarProperty Name="TratamentoDim" ColumnName="TratamentoDim" />
+                <ScalarProperty Name="Etiqueta" ColumnName="Etiqueta" />
+                <ScalarProperty Name="VersaoUltAct" ColumnName="VersaoUltAct" />
+                <ScalarProperty Name="OperacaoTesouraria" ColumnName="OperacaoTesouraria" />
+                <ScalarProperty Name="EntidadeOPTesouraria" ColumnName="EntidadeOPTesouraria" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="UnidadeCompra" ColumnName="UnidadeCompra" />
+                <ScalarProperty Name="UnidadeEntrada" ColumnName="UnidadeEntrada" />
+                <ScalarProperty Name="UnidadeSaida" ColumnName="UnidadeSaida" />
+                <ScalarProperty Name="UltimaSerieDoc" ColumnName="UltimaSerieDoc" />
+                <ScalarProperty Name="DeduzIvaNoImo" ColumnName="DeduzIvaNoImo" />
+                <ScalarProperty Name="PermiteDevolucao" ColumnName="PermiteDevolucao" />
+                <ScalarProperty Name="TipoEntidadeOpTesouraria" ColumnName="TipoEntidadeOpTesouraria" />
+                <ScalarProperty Name="Imposto" ColumnName="Imposto" />
+                <ScalarProperty Name="TipoDocOpTesouraria" ColumnName="TipoDocOpTesouraria" />
+                <ScalarProperty Name="UtilizadoCCOP" ColumnName="UtilizadoCCOP" />
+                <ScalarProperty Name="Pesar" ColumnName="Pesar" />
+                <ScalarProperty Name="IdGDOC" ColumnName="IdGDOC" />
+                <ScalarProperty Name="SujeitoProRata" ColumnName="SujeitoProRata" />
+                <ScalarProperty Name="PercIvaDedutivel" ColumnName="PercIvaDedutivel" />
+                <ScalarProperty Name="SujeitoEcotaxa" ColumnName="SujeitoEcotaxa" />
+                <ScalarProperty Name="Ecovalor" ColumnName="Ecovalor" />
+                <ScalarProperty Name="AfectaPCM" ColumnName="AfectaPCM" />
+                <ScalarProperty Name="LocalizacaoSugestao" ColumnName="LocalizacaoSugestao" />
+                <ScalarProperty Name="ArtigoPai" ColumnName="ArtigoPai" />
+                <ScalarProperty Name="OrdemDim" ColumnName="OrdemDim" />
+                <ScalarProperty Name="RubDim1" ColumnName="RubDim1" />
+                <ScalarProperty Name="RubDim2" ColumnName="RubDim2" />
+                <ScalarProperty Name="RubDim3" ColumnName="RubDim3" />
+                <ScalarProperty Name="IDTipoOrigemGPR" ColumnName="IDTipoOrigemGPR" />
+                <ScalarProperty Name="FabCompAutoGPR" ColumnName="FabCompAutoGPR" />
+                <ScalarProperty Name="CalcNecessidadesGPR" ColumnName="CalcNecessidadesGPR" />
+                <ScalarProperty Name="QtReservadaGPR" ColumnName="QtReservadaGPR" />
+                <ScalarProperty Name="QtReceberGPR" ColumnName="QtReceberGPR" />
+                <ScalarProperty Name="IDTipoProducaoGPR" ColumnName="IDTipoProducaoGPR" />
+                <ScalarProperty Name="DesperdicioGPR" ColumnName="DesperdicioGPR" />
+                <ScalarProperty Name="UtilizadoGPR" ColumnName="UtilizadoGPR" />
+                <ScalarProperty Name="PercIncidenciaIVA" ColumnName="PercIncidenciaIVA" />
+                <ScalarProperty Name="NaturezaAnalitica" ColumnName="NaturezaAnalitica" />
+                <ScalarProperty Name="IdClassificacao" ColumnName="IdClassificacao" />
+                <ScalarProperty Name="FormulaGPR" ColumnName="FormulaGPR" />
+                <ScalarProperty Name="SequenciaGPR" ColumnName="SequenciaGPR" />
+                <ScalarProperty Name="CDU_CampoVar1" ColumnName="CDU_CampoVar1" />
+                <ScalarProperty Name="CDU_CampoVar2" ColumnName="CDU_CampoVar2" />
+                <ScalarProperty Name="CDU_CampoVar3" ColumnName="CDU_CampoVar3" />
+                <ScalarProperty Name="DesactivadoGPR" ColumnName="DesactivadoGPR" />
+                <ScalarProperty Name="DataDesactivacaoGPR" ColumnName="DataDesactivacaoGPR" />
+                <ScalarProperty Name="SujeitoIEC" ColumnName="SujeitoIEC" />
+                <ScalarProperty Name="CategoriaIEC" ColumnName="CategoriaIEC" />
+                <ScalarProperty Name="CodigoTaric" ColumnName="CodigoTaric" />
+                <ScalarProperty Name="EmbalagemIEC" ColumnName="EmbalagemIEC" />
+                <ScalarProperty Name="CapacidadeEmbIEC" ColumnName="CapacidadeEmbIEC" />
+                <ScalarProperty Name="UnidadeTaric" ColumnName="UnidadeTaric" />
+                <ScalarProperty Name="FactConvIEC" ColumnName="FactConvIEC" />
+                <ScalarProperty Name="ValorIEC" ColumnName="ValorIEC" />
+                <ScalarProperty Name="TaxaAlcool" ColumnName="TaxaAlcool" />
+                <ScalarProperty Name="UtilManutencao" ColumnName="UtilManutencao" />
+                <ScalarProperty Name="PesoLiquido" ColumnName="PesoLiquido" />
+                <ScalarProperty Name="GestaoSingular" ColumnName="GestaoSingular" />
+                <ScalarProperty Name="Selo" ColumnName="Selo" />
+                <ScalarProperty Name="CodigoBebidaEspirituosa" ColumnName="CodigoBebidaEspirituosa" />
+                <ScalarProperty Name="CodigoEstampilha" ColumnName="CodigoEstampilha" />
+                <ScalarProperty Name="FactorUnidadeSup" ColumnName="FactorUnidadeSup" />
+                <ScalarProperty Name="GrupoCenariosCompras" ColumnName="GrupoCenariosCompras" />
+                <ScalarProperty Name="IsentoPagDireitos" ColumnName="IsentoPagDireitos" />
+                <ScalarProperty Name="CodigoPautal" ColumnName="CodigoPautal" />
+                <ScalarProperty Name="ControlaTransformacaoValor" ColumnName="ControlaTransformacaoValor" />
+                <ScalarProperty Name="CodigoCPV" ColumnName="CodigoCPV" />
+                <ScalarProperty Name="IsentoIEC" ColumnName="IsentoIEC" />
+                <ScalarProperty Name="CodigoIsentoIEC" ColumnName="CodigoIsentoIEC" />
+                <ScalarProperty Name="TipoCusteio" ColumnName="TipoCusteio" />
+                <ScalarProperty Name="IdTransferencia" ColumnName="IdTransferencia" />
+                <ScalarProperty Name="DataTransferencia" ColumnName="DataTransferencia" />
+                <ScalarProperty Name="DataCustoPadrao" ColumnName="DataCustoPadrao" />
+                <ScalarProperty Name="CodigoAdicionalAltIEC" ColumnName="CodigoAdicionalAltIEC" />
+                <ScalarProperty Name="SujeitoRetencaoArtigo" ColumnName="SujeitoRetencaoArtigo" />
+                <ScalarProperty Name="RetencaoArtigoValor" ColumnName="RetencaoArtigoValor" />
+                <ScalarProperty Name="RetencaoArtigoTipoValor" ColumnName="RetencaoArtigoTipoValor" />
+                <ScalarProperty Name="eGAR_LER" ColumnName="eGAR_LER" />
+                <ScalarProperty Name="eGAR_Grupo" ColumnName="eGAR_Grupo" />
+                <ScalarProperty Name="NumeroONU" ColumnName="NumeroONU" />
+                <ScalarProperty Name="GrupoEmbalagem" ColumnName="GrupoEmbalagem" />
+                <ScalarProperty Name="ClasseArtigoTaxFree" ColumnName="ClasseArtigoTaxFree" />
+                <ScalarProperty Name="LastIndexDate" ColumnName="LastIndexDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArtigoMoeda">
+            <EntityTypeMapping TypeName="PRIPOWERBIModel.ArtigoMoeda">
+              <MappingFragment StoreEntitySet="ArtigoMoeda">
+                <ScalarProperty Name="Artigo" ColumnName="Artigo" />
+                <ScalarProperty Name="Moeda" ColumnName="Moeda" />
+                <ScalarProperty Name="PVP1" ColumnName="PVP1" />
+                <ScalarProperty Name="PVP2" ColumnName="PVP2" />
+                <ScalarProperty Name="PVP3" ColumnName="PVP3" />
+                <ScalarProperty Name="PVP4" ColumnName="PVP4" />
+                <ScalarProperty Name="PVP5" ColumnName="PVP5" />
+                <ScalarProperty Name="PVP6" ColumnName="PVP6" />
+                <ScalarProperty Name="VersaoUltAct" ColumnName="VersaoUltAct" />
+                <ScalarProperty Name="Unidade" ColumnName="Unidade" />
+                <ScalarProperty Name="PVP1IvaIncluido" ColumnName="PVP1IvaIncluido" />
+                <ScalarProperty Name="PVP2IvaIncluido" ColumnName="PVP2IvaIncluido" />
+                <ScalarProperty Name="PVP3IvaIncluido" ColumnName="PVP3IvaIncluido" />
+                <ScalarProperty Name="PVP4IvaIncluido" ColumnName="PVP4IvaIncluido" />
+                <ScalarProperty Name="PVP5IvaIncluido" ColumnName="PVP5IvaIncluido" />
+                <ScalarProperty Name="PVP6IvaIncluido" ColumnName="PVP6IvaIncluido" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Familias">
+            <EntityTypeMapping TypeName="PRIPOWERBIModel.Familias">
+              <MappingFragment StoreEntitySet="Familias">
+                <ScalarProperty Name="Familia" ColumnName="Familia" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="DataUltimaActualizacao" ColumnName="DataUltimaActualizacao" />
+                <ScalarProperty Name="Etiqueta" ColumnName="Etiqueta" />
+                <ScalarProperty Name="TipoDim1" ColumnName="TipoDim1" />
+                <ScalarProperty Name="TipoDim2" ColumnName="TipoDim2" />
+                <ScalarProperty Name="TipoDim3" ColumnName="TipoDim3" />
+                <ScalarProperty Name="Dim1" ColumnName="Dim1" />
+                <ScalarProperty Name="Dim2" ColumnName="Dim2" />
+                <ScalarProperty Name="Dim3" ColumnName="Dim3" />
+                <ScalarProperty Name="VersaoUltAct" ColumnName="VersaoUltAct" />
+                <ScalarProperty Name="PermiteDevolucao" ColumnName="PermiteDevolucao" />
+                <ScalarProperty Name="NaturezaAnalitica" ColumnName="NaturezaAnalitica" />
+                <ScalarProperty Name="UtilizadoCCOP" ColumnName="UtilizadoCCOP" />
+                <ScalarProperty Name="IdPastaCCOP" ColumnName="IdPastaCCOP" />
+                <ScalarProperty Name="GrupoCenariosCompras" ColumnName="GrupoCenariosCompras" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Entidades">
+            <EntityTypeMapping TypeName="PRIPOWERBIModel.V_Entidades">
+              <MappingFragment StoreEntitySet="V_Entidades">
+                <ScalarProperty Name="TipoEntidade" ColumnName="TipoEntidade" />
+                <ScalarProperty Name="Entidade" ColumnName="Entidade" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="NomeFiscal" ColumnName="NomeFiscal" />
+                <ScalarProperty Name="Morada" ColumnName="Morada" />
+                <ScalarProperty Name="Morada2" ColumnName="Morada2" />
+                <ScalarProperty Name="Localidade" ColumnName="Localidade" />
+                <ScalarProperty Name="Cp" ColumnName="Cp" />
+                <ScalarProperty Name="CpLoc" ColumnName="CpLoc" />
+                <ScalarProperty Name="Distrito" ColumnName="Distrito" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="NumContrib" ColumnName="NumContrib" />
+                <ScalarProperty Name="TextoExcepcaoRetencao" ColumnName="TextoExcepcaoRetencao" />
+                <ScalarProperty Name="EfectuaRetencao" ColumnName="EfectuaRetencao" />
+                <ScalarProperty Name="Pais" ColumnName="Pais" />
+                <ScalarProperty Name="TipoMercado" ColumnName="TipoMercado" />
+                <ScalarProperty Name="GestaoDiasPag" ColumnName="GestaoDiasPag" />
+                <ScalarProperty Name="DiaPagamento1" ColumnName="DiaPagamento1" />
+                <ScalarProperty Name="DiaPagamento2" ColumnName="DiaPagamento2" />
+                <ScalarProperty Name="DiaPagamento3" ColumnName="DiaPagamento3" />
+                <ScalarProperty Name="NumDiasRetrocesso" ColumnName="NumDiasRetrocesso" />
+                <ScalarProperty Name="ContribuinteNaoResidente" ColumnName="ContribuinteNaoResidente" />
+                <ScalarProperty Name="EnderecoWeb" ColumnName="EnderecoWeb" />
+                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
+                <ScalarProperty Name="ActividadeEmpresarial" ColumnName="ActividadeEmpresarial" />
+                <ScalarProperty Name="TrataIvaCaixa" ColumnName="TrataIvaCaixa" />
+                <ScalarProperty Name="ExcluirRecap" ColumnName="ExcluirRecap" />
+                <ScalarProperty Name="NaturezaEntidade" ColumnName="NaturezaEntidade" />
+                <ScalarProperty Name="TipoTerceiro" ColumnName="TipoTerceiro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
