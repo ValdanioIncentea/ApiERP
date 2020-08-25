@@ -46,27 +46,33 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BasBE100">
+    <Reference Include="BasBE100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\BasBE100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="BasBS100">
+    <Reference Include="BasBS100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\BasBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="CctBE100">
+    <Reference Include="CctBE100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\CctBE100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="CctBS100">
+    <Reference Include="CctBS100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\CctBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="CmpBE100">
+    <Reference Include="CmpBE100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\CmpBE100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="CmpBS100">
+    <Reference Include="CmpBS100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\CmpBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
@@ -76,51 +82,63 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="ErpBE100">
+    <Reference Include="ErpBE100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\ErpBE100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ErpBS100">
+    <Reference Include="ErpBS100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\ErpBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ErpDS100">
+    <Reference Include="ErpDS100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\ErpDS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="IBasBS100">
+    <Reference Include="IBasBS100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\IBasBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ICctBS100">
+    <Reference Include="ICctBS100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\ICctBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ICmpBS100">
+    <Reference Include="ICmpBS100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\ICmpBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="IIntBS100">
+    <Reference Include="IIntBS100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\IIntBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="IInvBS100">
+    <Reference Include="IInvBS100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\IInvBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="IntBE100">
+    <Reference Include="IntBE100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\IntBE100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="IntBS100">
+    <Reference Include="IntBS100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\IntBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="InvBE100">
+    <Reference Include="InvBE100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\InvBE100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="InvBS100">
+    <Reference Include="InvBS100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\InvBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
@@ -135,15 +153,18 @@
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\Primavera.Extensibility.Integration.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="StdBE100">
+    <Reference Include="StdBE100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\StdBE100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="StdPlatBE100">
+    <Reference Include="StdPlatBE100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\StdPlatBE100.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="StdPlatBS100">
+    <Reference Include="StdPlatBS100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\StdPlatBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>

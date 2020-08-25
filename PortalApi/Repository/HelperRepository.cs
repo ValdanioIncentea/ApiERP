@@ -13,6 +13,7 @@ namespace PortalApi.Repository
 
         public void CriarLog(string NomeArquivo, string Conteudo, string Pasta)
         {
+
             string Caminho = "C:" + @"\\Logs\\" + Pasta;
             if (!Directory.Exists(Caminho))
             {

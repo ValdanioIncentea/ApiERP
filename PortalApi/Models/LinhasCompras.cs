@@ -15,6 +15,7 @@ namespace PortalApi.Models
         public Nullable<double> Desconto { get; set; }
         public Nullable<Guid> IdObra { get; set; }
         public string CentroDeCusto { get; set; }
-
+        public string Localizacao { get; set; }
+        public string Lote { get; set; }
     }
 }

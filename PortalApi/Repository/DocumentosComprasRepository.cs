@@ -77,7 +77,7 @@ namespace PortalApi.Repository
 
                             string Armazem = linhaDocumento.Armazem;
 
-                            BSO.Compras.Documentos.AdicionaLinha(documento, linhaDocumento.Artigo, ref Quantidade, ref Armazem, ref Armazem, 0, Convert.ToDouble(linhaDocumento.Desconto));
+                            BSO.Compras.Documentos.AdicionaLinha(documento, linhaDocumento.Artigo, ref Quantidade, ref Armazem, ref Armazem, linhaDocumento.Preco, Convert.ToDouble(linhaDocumento.Desconto));
                             linhaNumero++;
                             float TaxaIva = Convert.ToSingle(linhaDocumento.TaxaIva);
                             documento.Linhas.GetEdita(linhaNumero).DataEntrega = documento.DataDoc;
@@ -176,7 +176,9 @@ namespace PortalApi.Repository
 
                             string Armazem = linhaDocumento.Armazem;
 
-                            BSO.Internos.Documentos.AdicionaLinha(documento, linhaDocumento.Artigo, Armazem, Armazem, "", 0, linhaDocumento.Preco, Quantidade);
+                            double Desconto = linhaDocumento.Desconto == null ? 0 : Convert.ToDouble(linhaDocumento.Desconto);
+
+                            BSO.Internos.Documentos.AdicionaLinha(documento, linhaDocumento.Artigo, Armazem, linhaDocumento.Localizacao, linhaDocumento.Lote, linhaDocumento.Preco, Desconto, Quantidade);
                             linhaNumero++;
                             float TaxaIva = Convert.ToSingle(linhaDocumento.TaxaIva);
                             documento.Linhas.GetEdita(linhaNumero).DataEntrega = documento.Data;
