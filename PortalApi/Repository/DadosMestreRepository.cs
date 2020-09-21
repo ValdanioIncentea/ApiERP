@@ -12,6 +12,8 @@ namespace PortalApi.Repository
     public class DadosMestreRepository
     {
 
+        HelperRepository _helperRepository = new HelperRepository();
+
         public List<MovimentosViewModel> BuscarMovimentosDosArtigos()
         {
             var conexao = Singleton.ConectarComOBancoBanco;
@@ -62,19 +64,21 @@ namespace PortalApi.Repository
 
                 }
 
-                conexao.Close();
-
                 return MovimentosLista;
 
             }
             catch (Exception ex)
             {
+               _helperRepository.CriarLog("Integração", "Metodo : BuscarMovimentosDosArtigos" + ex.Message.ToString(), "Erro");
+                throw;
+            }
+            finally
+            {
                 conexao.Close();
-                throw ex;
             }
 
         }
-        
+
         public List<ArmazenViewModel> BuscarArmazens()
         {
             var conexao = Singleton.ConectarComOBancoBanco;
@@ -114,15 +118,17 @@ namespace PortalApi.Repository
 
                 }
 
-                conexao.Close();
-
                 return ArmazensLista;
 
             }
             catch (Exception ex)
             {
+                _helperRepository.CriarLog("Integração", "Metodo : BuscarArmazens" + ex.Message.ToString(), "Erro");
+                throw;
+            }
+            finally
+            {
                 conexao.Close();
-                throw ex;
             }
 
         }
@@ -164,17 +170,18 @@ namespace PortalApi.Repository
 
                 }
 
-                conexao.Close();
-
                 return LocalizacaoLista;
 
             }
             catch (Exception ex)
             {
-                conexao.Close();
-                throw ex;
+                _helperRepository.CriarLog("Integração", "Metodo : BuscarLocalizacoes" + ex.Message.ToString(), "Erro");
+                 throw;
             }
-
+            finally
+            {
+                conexao.Close();
+            }
         }
 
         public List<LoteViewModel> BuscarLotes()
@@ -209,9 +216,9 @@ namespace PortalApi.Repository
                         _loteViewModel.Descricao = Linha["Descricao"].ToString();
 
                         if (Linha["Validade"] != null)
-                            _loteViewModel.Validade = Convert.ToDateTime(Linha["Validade"]); 
+                            _loteViewModel.Validade = Convert.ToDateTime(Linha["Validade"]);
                         else
-                            _loteViewModel.Validade = null; 
+                            _loteViewModel.Validade = null;
 
                         if (Linha["DataFabrico"] != null)
                             _loteViewModel.DataFabrico = Convert.ToDateTime(Linha["DataFabrico"]);
@@ -226,15 +233,17 @@ namespace PortalApi.Repository
 
                 }
 
-                conexao.Close();
-
                 return LoteLista;
 
             }
             catch (Exception ex)
             {
+                _helperRepository.CriarLog("Integração", "Metodo: BuscarLotes" + ex.Message.ToString(), "Erro");
+                throw;
+            }
+            finally
+            {
                 conexao.Close();
-                throw ex;
             }
 
         }
@@ -250,7 +259,7 @@ namespace PortalApi.Repository
 
                 DataTable Artigos = new DataTable();
 
-                string queryCabe = "select Artigo,ArmazemSugestao,Descricao,Familia,Iva,MovStock,UnidadeBase,DataUltimaActualizacao FROM Artigo WHERE Familia is not null";
+                string queryCabe = "select Artigo,ArmazemSugestao,Descricao,Familia,Iva,MovStock,UnidadeBase,DataUltimaActualizacao,UnidadeBase, UnidadeCompra, UnidadeEntrada,UnidadeSaida, UnidadeVenda FROM Artigo WHERE Familia is not null";
 
                 SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
 
@@ -273,6 +282,10 @@ namespace PortalApi.Repository
                         artigoViewModel.IVA = Linha["IVA"].ToString();
                         artigoViewModel.MovStock = Linha["MovStock"].ToString();
                         artigoViewModel.UnidadeBase = Linha["UnidadeBase"].ToString();
+                        artigoViewModel.UnidadeCompra = Linha["UnidadeCompra"].ToString();
+                        artigoViewModel.UnidadeEntrada = Linha["UnidadeEntrada"].ToString();
+                        artigoViewModel.UnidadeSaida = Linha["UnidadeSaida"].ToString();
+                        artigoViewModel.UnidadeVenda = Linha["UnidadeVenda"].ToString();
                         artigoViewModel.DataUltimaActualizacao = Linha["DataUltimaActualizacao"].ToString();
 
                         ArtigosLista.Add(artigoViewModel);
@@ -281,15 +294,123 @@ namespace PortalApi.Repository
 
                 }
 
-                conexao.Close();
-
                 return ArtigosLista;
 
             }
             catch (Exception ex)
             {
+                _helperRepository.CriarLog("Integração", "Metodo: BuscarTodosArtigos" + ex.Message.ToString(), "Erro");
+                throw;
+            }
+            finally
+            {
                 conexao.Close();
-                throw ex;
+            }
+
+        }
+
+        public List<UnidadeConversaoViewModel> BuscarUnidadesConversao()
+        {
+            var conexao = Singleton.ConectarComOBancoBanco;
+
+            try
+            {
+                if (conexao.State != ConnectionState.Open)
+                    conexao.Open();
+
+                DataTable UnidadesConversao = new DataTable();
+
+                string queryCabe = "select UnidadeOrigem, UnidadeDestino, UtilizaFormula, FactorConversao, Formula from UnidadesConversao";
+
+                SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
+
+                reader.Fill(UnidadesConversao);
+
+                List<UnidadeConversaoViewModel> UnidadeConversaoLista = new List<UnidadeConversaoViewModel>();
+
+                if (UnidadesConversao.Rows.Count > 0)
+                {
+
+                    foreach (DataRow Linha in UnidadesConversao.Rows)
+                    {
+
+                        UnidadeConversaoViewModel UnidadeConvesao = new UnidadeConversaoViewModel();
+
+                        UnidadeConvesao.UnidadeDestino = Linha["UnidadeDestino"].ToString();
+                        UnidadeConvesao.UnidadeOrigem = Linha["UnidadeOrigem"].ToString();
+                        UnidadeConvesao.Formula = Linha["Formula"].ToString();
+                        UnidadeConvesao.FactorConversao = Convert.ToDouble(Linha["FactorConversao"]);
+                        UnidadeConvesao.UtilizaFormula = Convert.ToBoolean(Linha["UtilizaFormula"]);
+
+                        UnidadeConversaoLista.Add(UnidadeConvesao);
+
+                    }
+
+                }
+
+                return UnidadeConversaoLista;
+
+            }
+            catch (Exception ex)
+            {
+                _helperRepository.CriarLog("Integração", "Metodo: BuscarUnidadesConversao" + ex.Message.ToString(), "Erro");
+                throw;
+            }
+            finally
+            {
+                conexao.Close();
+            }
+
+        }
+
+        public List<DocumentoViewModel> BuscarDocumentos()
+        {
+            var conexao = Singleton.ConectarComOBancoBanco;
+
+            try
+            {
+                if (conexao.State != ConnectionState.Open)
+                    conexao.Open();
+
+                DataTable DocCompras = new DataTable();
+
+                string queryCabe = "SELECT Documento,Descricao,Modulo='V' FrOM DocumentosVenda UNION SELECT Documento,Descricao,Modulo = 'C' FrOM DocumentosCompra UNION SELECT Documento,Descricao,Modulo = 'N' FROM DocumentosInternos";
+
+                SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
+
+                reader.Fill(DocCompras);
+
+                List<DocumentoViewModel> ComprasLista = new List<DocumentoViewModel>();
+
+                if (DocCompras.Rows.Count > 0)
+                {
+
+                    foreach (DataRow Linha in DocCompras.Rows)
+                    {
+
+                        DocumentoViewModel DocCmp = new DocumentoViewModel();
+
+                        DocCmp.Descricao = Linha["Descricao"].ToString();
+                        DocCmp.Documento = Linha["Documento"].ToString();
+                        DocCmp.Modulo = Linha["Modulo"].ToString();
+
+                        ComprasLista.Add(DocCmp);
+
+                    }
+
+                }
+
+                return ComprasLista;
+
+            }
+            catch (Exception ex)
+            {
+                _helperRepository.CriarLog("Integração", "Metodo: BuscarDocumentos" + ex.Message.ToString(), "Erro");
+                throw;
+            }
+            finally
+            {
+                conexao.Close();
             }
 
         }
@@ -332,15 +453,17 @@ namespace PortalApi.Repository
 
                 }
 
-                conexao.Close();
-
                 return CentrosLista;
 
             }
             catch (Exception ex)
             {
+                _helperRepository.CriarLog("Integração", "Metodo: BuscarCentrosDeCustos" + ex.Message.ToString(), "Erro");
+                throw;
+            }
+            finally
+            {
                 conexao.Close();
-                throw ex;
             }
         }
 
@@ -392,8 +515,12 @@ namespace PortalApi.Repository
             }
             catch (Exception ex)
             {
+                _helperRepository.CriarLog("Integração", "Metodo: BuscarObras" + ex.Message.ToString(), "Erro");
+                throw;
+            }
+            finally
+            {
                 conexao.Close();
-                throw ex;
             }
 
         }
@@ -444,15 +571,17 @@ namespace PortalApi.Repository
 
                 }
 
-                conexao.Close();
-
                 return Entidades;
 
             }
             catch (Exception ex)
             {
+                _helperRepository.CriarLog("Integração", "Metodo: BusarEntidades" + ex.Message.ToString(), "Erro");
+                throw;
+            }
+            finally
+            {
                 conexao.Close();
-                throw ex;
             }
 
         }
@@ -493,15 +622,17 @@ namespace PortalApi.Repository
 
                 }
 
-                conexao.Close();
-
                 return FamiliaLista;
 
             }
             catch (Exception ex)
             {
+                _helperRepository.CriarLog("Integração", "Metodo: BuscarFamilias" + ex.Message.ToString(), "Erro");
+                throw;
+            }
+            finally
+            {
                 conexao.Close();
-                throw ex;
             }
 
         }
@@ -518,7 +649,7 @@ namespace PortalApi.Repository
 
                 DataTable DepartamentoDataTable = new DataTable();
 
-                string queryCabe = "select Departamento,Descricao from Departamentos";
+                string queryCabe = "select Entidade, Nome from V_Entidades where TipoEntidade = 'D'";
 
                 SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
 
@@ -532,25 +663,26 @@ namespace PortalApi.Repository
 
                     foreach (DataRow Linha in DepartamentoDataTable.Rows)
                     {
-                        DepartamentoViewModel familiaViewModel = new DepartamentoViewModel();
-                        familiaViewModel.Codigo = Linha["Departamento"].ToString();
-                        familiaViewModel.Descricao = Linha["Descricao"].ToString();
-                        DepartamentoLista.Add(familiaViewModel);
+                        DepartamentoViewModel _departamentoViewModel = new DepartamentoViewModel();
+                        _departamentoViewModel.Codigo = Linha["Entidade"].ToString();
+                        _departamentoViewModel.Descricao = Linha["Nome"].ToString();
+                        DepartamentoLista.Add(_departamentoViewModel);
                     };
 
                 }
-
-                conexao.Close();
 
                 return DepartamentoLista;
 
             }
             catch (Exception ex)
             {
-                conexao.Close();
-                throw ex;
+                _helperRepository.CriarLog("Integração", "Metodo: BuscarDepartamentos" + ex.Message.ToString(), "Erro");
+                throw;
             }
-
+            finally
+            {
+                conexao.Close();
+            }
         }
 
         public List<ArtigoMoedaViewModel> BuscarArtigoMoeda()
@@ -591,15 +723,17 @@ namespace PortalApi.Repository
 
                 }
 
-                conexao.Close();
-
                 return ArtigoMoedaViewModelLista;
 
             }
             catch (Exception ex)
             {
+                _helperRepository.CriarLog("Integração", "Metodo: BuscarArtigoMoeda" + ex.Message.ToString(), "Erro");
+                throw;
+            }
+            finally
+            {
                 conexao.Close();
-                throw ex;
             }
         }
 
@@ -646,10 +780,13 @@ namespace PortalApi.Repository
             }
             catch (Exception ex)
             {
-                conexao.Close();
-                throw ex;
+                _helperRepository.CriarLog("Integração", "Metodo: BuscarReferenciasDeDocumentosIntegrados" + ex.Message.ToString(), "Erro");
+                throw;
             }
-
+            finally
+            {
+                conexao.Close();
+            }
         }
 
         public void EliminarReferenciasDeDocumentosIntegrados(DocumentoAprovadosViewModel Documento)
@@ -676,11 +813,13 @@ namespace PortalApi.Repository
             }
             catch (Exception ex)
             {
-                conexao.Close();
-                throw ex;
+                _helperRepository.CriarLog("Integração", "Metodo : <List>EliminarReferenciasDeDocumentosIntegrados" + ex.Message.ToString(), "Erro");
+                throw;
             }
-
-
+            finally
+            {
+                conexao.Close();
+            }
         }
 
         public List<DocumentosIntegradoViewModel> EliminarReferenciasDeDocumentosIntegrados()
@@ -720,15 +859,17 @@ namespace PortalApi.Repository
 
                 }
 
-                conexao.Close();
-
                 return ReferenciasLista;
 
             }
             catch (Exception ex)
             {
+                _helperRepository.CriarLog("Integração", "Metodo : EliminarReferenciasDeDocumentosIntegrados" + ex.Message.ToString(), "Erro");
+                throw;
+            }
+            finally
+            {
                 conexao.Close();
-                throw ex;
             }
 
         }
@@ -765,8 +906,12 @@ namespace PortalApi.Repository
             catch (Exception ex)
             {
                 Trasancao.Rollback();
-                conexao.Close();
+                _helperRepository.CriarLog("Integração", "Metodo : AlterarEstadoDocumentoInterno" + ex.Message.ToString(), "Erro");
                 throw ex;
+            }
+            finally
+            {
+                conexao.Close();
             }
         }
 

@@ -80,6 +80,8 @@ namespace PortalApi.Repository
                             BSO.Compras.Documentos.AdicionaLinha(documento, linhaDocumento.Artigo, ref Quantidade, ref Armazem, ref Armazem, linhaDocumento.Preco, Convert.ToDouble(linhaDocumento.Desconto));
                             linhaNumero++;
                             float TaxaIva = Convert.ToSingle(linhaDocumento.TaxaIva);
+                            documento.Linhas.GetEdita(linhaNumero).Unidade = linhaDocumento.Unidade;
+                            documento.Linhas.GetEdita(linhaNumero).Descricao = linhaDocumento.Descricao;
                             documento.Linhas.GetEdita(linhaNumero).DataEntrega = documento.DataDoc;
                             documento.Linhas.GetEdita(linhaNumero).CCustoCBL = linhaDocumento.CentroDeCusto;
                             documento.Linhas.GetEdita(linhaNumero).TaxaIva = TaxaIva;
@@ -114,7 +116,7 @@ namespace PortalApi.Repository
 
                 BSO.FechaEmpresaTrabalho();
 
-                _helperRepository.CriarLog("Integração", e.Message.ToString(), "Erro");
+                _helperRepository.CriarLog("Integração", "Integração de Documento de Compra: " + e.Message.ToString(), "Erro");
 
                 return false;
 
@@ -210,7 +212,7 @@ namespace PortalApi.Repository
             {
 
                 BSO.FechaEmpresaTrabalho();
-                _helperRepository.CriarLog("Integração", e.Message.ToString(), "Erro");
+                _helperRepository.CriarLog("Integração", "Integração de Documento Interno: " + e.Message.ToString(), "Erro");
 
                 return e.Message;
 
@@ -265,15 +267,17 @@ namespace PortalApi.Repository
 
                 }
 
-                conexao.Close();
-
                 return 90;
 
             }
             catch (Exception ex)
             {
-                conexao.Close();
+                _helperRepository.CriarLog("Integração", "Metodo: buscarCodigoDoImpostoIva " + ex.Message.ToString(), "Erro");
                 throw;
+            }
+            finally
+            {
+                conexao.Close();
             }
         }
 
@@ -296,8 +300,12 @@ namespace PortalApi.Repository
             }
             catch (Exception ex)
             {
-                conexao.Close();
+                _helperRepository.CriarLog("Integração", "Metodo: ReferenciarDocumentosIntegrados " + ex.Message.ToString(), "Erro");
                 throw ex;
+            }
+            finally
+            {
+                conexao.Close();
             }
         }
 
@@ -326,8 +334,12 @@ namespace PortalApi.Repository
             }
             catch (Exception ex)
             {
-                conexao.Close();
+                _helperRepository.CriarLog("Integração", "Metodo: VerificarSeIdJáExiste " + ex.Message.ToString(), "Erro");
                 throw ex;
+            }
+            finally
+            {
+                conexao.Close();
             }
 
             return false;
@@ -365,15 +377,17 @@ namespace PortalApi.Repository
 
                 }
 
-                conexao.Close();
-
                 return Cambio;
 
             }
             catch (Exception ex)
             {
-                conexao.Close();
+                _helperRepository.CriarLog("Integração", "Metodo: BuscarCambio " + ex.Message.ToString(), "Erro");
                 throw;
+            }
+            finally
+            {
+                conexao.Close();
             }
         }
 
@@ -409,10 +423,13 @@ namespace PortalApi.Repository
                 }
 
             }
-            catch (Exception e)
+            catch (Exception ex)
+            {
+                _helperRepository.CriarLog("Integração", "Metodo: VeriricarSeNumeroDeProcessoExisteNoDocumentoInterno " + ex.Message.ToString(), "Erro");
+            }
+            finally
             {
                 conexao.Close();
-                throw;
             }
 
             return false;
@@ -453,8 +470,11 @@ namespace PortalApi.Repository
             }
             catch (Exception ex)
             {
+                _helperRepository.CriarLog("Integração", "Metodo: VeriricarSeNumeroDeProcessoExisteNoDocumentoDeCompras " + ex.Message.ToString(), "Erro");
+            }
+            finally
+            {
                 conexao.Close();
-                throw ex;
             }
 
             return false;

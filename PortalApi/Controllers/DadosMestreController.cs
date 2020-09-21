@@ -12,6 +12,7 @@ using System.Web.Http;
 
 namespace PortalApi.Controllers
 {
+
     public class DadosMestreController : ApiController
     {
         private readonly DadosMestreRepository dadosMestreRepository = new DadosMestreRepository();
@@ -21,6 +22,13 @@ namespace PortalApi.Controllers
         public List<ArmazenViewModel> BuscarArmazens()
         {
             return dadosMestreRepository.BuscarArmazens();
+        }
+        
+        [Route("api/DadosMestre/Documentos")]
+        [HttpGet]
+        public List<DocumentoViewModel> BuscarDocumentos()
+        {
+            return dadosMestreRepository.BuscarDocumentos();
         }  
                
         [Route("api/DadosMestre/MovimentosDosArtigos")]
@@ -35,6 +43,13 @@ namespace PortalApi.Controllers
         public List<LocalizacaoViewModel> BuscarLocalizacoes()
         {
             return dadosMestreRepository.BuscarLocalizacoes();
+        } 
+         
+        [Route("api/DadosMestre/UnidadesConversao")]
+        [HttpGet]
+        public List<UnidadeConversaoViewModel> BuscarUnidadesConversao()
+        {
+            return dadosMestreRepository.BuscarUnidadesConversao();
         } 
         
         [Route("api/DadosMestre/Lotes")]
