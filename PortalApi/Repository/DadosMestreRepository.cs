@@ -25,7 +25,13 @@ namespace PortalApi.Repository
 
                 DataTable Movimentos = new DataTable();
 
-                string queryCabe = "select ID,Artigo, Armazem,Localizacao,Lote, StockLot_Actual, StockLot_Anterior, StockArm_Actual, StockArm_Anterior, StockLoc_Actual, StockLoc_Anterior, TipoMovimento, Quantidade, Data,Stock_Actual, Stock_Anterior from INV_Movimentos order by Data desc";
+                //string queryCabe = "select ID,Artigo, Armazem,Localizacao,Lote, StockLot_Actual, StockLot_Anterior, StockArm_Actual, StockArm_Anterior, StockLoc_Actual, StockLoc_Anterior, TipoMovimento, Quantidade, Data,Stock_Actual, Stock_Anterior from INV_Movimentos order by Data desc";
+                string queryCabe = "select ID,Artigo, Armazem,Localizacao,Lote, StockLot_Actual, StockLot_Anterior, StockArm_Actual, StockArm_Anterior, StockLoc_Actual, StockLoc_Anterior, TipoMovimento, Quantidade, Data,Stock_Actual, Stock_Anterior from INV_Movimentos" 
++" where INV_Movimentos.Id not in ("
++" select m.Id from INV_movimentos m, INV_Origens o, INV_TiposOrigem Tpo, CabecInternos inte"
++" where m.IdOrigem = o.id  and Tpo.Id = o.IdTipoOrigem and tpo.Modulo = 'N'"
++" and inte.Id = o.IdChave1 and inte.CDU_PROCESSO is not null)"
++" order by Data";
 
                 SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
 
@@ -259,7 +265,7 @@ namespace PortalApi.Repository
 
                 DataTable Artigos = new DataTable();
 
-                string queryCabe = "select Artigo,ArmazemSugestao,Descricao,Familia,Iva,MovStock,UnidadeBase,DataUltimaActualizacao,UnidadeBase, UnidadeCompra, UnidadeEntrada,UnidadeSaida, UnidadeVenda FROM Artigo WHERE Familia is not null";
+                string queryCabe = "select Artigo,ArmazemSugestao,Descricao,Familia,Iva,MovStock,UnidadeBase,DataUltimaActualizacao,UnidadeBase, UnidadeCompra, UnidadeEntrada,UnidadeSaida, UnidadeVenda FROM Artigo WHERE MovStock = 'S' AND Familia is not null";
 
                 SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
 
@@ -537,7 +543,7 @@ namespace PortalApi.Repository
 
                 DataTable FamiliasDataTable = new DataTable();
 
-                string queryCabe = "select e.Entidade,e.NomeFiscal,e.Nome,e.Localidade,e.Morada,e.NumContrib,p.Descricao,e.TipoEntidade, e.EnderecoWeb from v_entidades e, Paises p where p.Pais = e.Pais AND TipoEntidade in ('R','C','F')";
+                string queryCabe = "select e.Entidade,e.NomeFiscal,e.Nome,e.Localidade,e.Morada,e.NumContrib,p.Descricao,e.TipoEntidade, e.EnderecoWeb from v_entidades e, Paises p where p.Pais = e.Pais AND TipoEntidade in ('R','C','F','D')";
 
                 SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
 
