@@ -27,7 +27,7 @@ namespace PortalApi.App_Start
                 {
                     if (bso == null)
                     {
-                        ErpBS bso = new ErpBS(); ConfigurationManager.AppSettings["Requisitante"].ToString();
+                        ErpBS bso = new ErpBS(); 
                         bso.AbreEmpresaTrabalho(StdBE100.StdBETipos.EnumTipoPlataforma.tpEmpresarial,ConfigurationManager.AppSettings["EmpresaErp"].ToString(), ConfigurationManager.AppSettings["UserErp"].ToString(), ConfigurationManager.AppSettings["SenhaErp"].ToString(), null, "DEFAULT");
                         return bso;
                     }

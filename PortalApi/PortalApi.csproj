@@ -305,6 +305,7 @@
     <Compile Include="Repository\DadosMestreRepository.cs" />
     <Compile Include="Repository\DocumentosComprasRepository.cs" />
     <Compile Include="Repository\HelperRepository.cs" />
+    <Compile Include="Repository\RasteabilidadeRepository.cs" />
     <Compile Include="ViewModel\DocumentoViewModel.cs" />
     <Compile Include="ViewModel\MovimentosViewModel.cs" />
     <Compile Include="ViewModel\LoteViewModel.cs" />

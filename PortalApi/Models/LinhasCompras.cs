@@ -19,5 +19,6 @@ namespace PortalApi.Models
         public string Lote { get; set; }
         public string Unidade { get; set; }
         public string Descricao { get; set; }
+        public string NumeroDeProcesso { get; set; }
     }
 }

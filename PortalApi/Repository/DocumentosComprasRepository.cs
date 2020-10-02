@@ -21,6 +21,7 @@ namespace PortalApi.Repository
     {
 
         HelperRepository _helperRepository = new HelperRepository();
+        RasteabilidadeRepository _rasteabilidadeRepository = new RasteabilidadeRepository();
         public bool CriarDocumentoDeCompra(ErpBS BSO, List<DocumentoDeCompras> documentosDeCompras)
         {
             try
@@ -28,8 +29,21 @@ namespace PortalApi.Repository
 
                 var DocumentosIntegrados = new List<DocumentosIntegradoViewModel>();
 
+                var MapaDoFLuxo = new Dictionary<int, string>();
+
                 foreach (var documentoDeCompras in documentosDeCompras)
                 {
+
+                    if (MapaDoFLuxo.Count == 0)
+                    {
+                        MapaDoFLuxo.Add(1, documentoDeCompras.DocumentoPrincipal);
+                        MapaDoFLuxo.Add(11, documentoDeCompras.DocumentoPrincipalAlternativo);
+                        MapaDoFLuxo.Add(2, documentoDeCompras.SegundoDocumento);
+                        MapaDoFLuxo.Add(3, documentoDeCompras.TerceiroDocumento);
+                        MapaDoFLuxo.Add(4, documentoDeCompras.QuartoDocumento);
+                        MapaDoFLuxo.Add(5, documentoDeCompras.QuintoDocumento);
+                    }
+
                     if (!VeriricarSeNumeroDeProcessoExisteNoDocumentoDeCompras(documentoDeCompras.NumeroDeProcesso, documentoDeCompras.CodigoPortal, documentoDeCompras.Tipodoc, documentoDeCompras.Entidade))
                     {
                         CmpBEDocumentoCompra documento = new CmpBEDocumentoCompra();
@@ -70,12 +84,15 @@ namespace PortalApi.Repository
                         documento.CamposUtil["CDU_PROCESSO"].Valor = documentoDeCompras.NumeroDeProcesso;
 
                         int linhaNumero = 0;
+
                         foreach (var linhaDocumento in documentoDeCompras.Linhas)
                         {
 
                             double Quantidade = linhaDocumento.Quantidade;
 
                             string Armazem = linhaDocumento.Armazem;
+
+                            //BSO.Compras.Documentos.AdicionaLinhaTransformada(
 
                             BSO.Compras.Documentos.AdicionaLinha(documento, linhaDocumento.Artigo, ref Quantidade, ref Armazem, ref Armazem, linhaDocumento.Preco, Convert.ToDouble(linhaDocumento.Desconto));
                             linhaNumero++;
@@ -131,8 +148,24 @@ namespace PortalApi.Repository
 
                 var DocumentosIntegrados = new List<DocumentosIntegradoViewModel>();
 
+                var MapaDoFLuxo = new Dictionary<int, string>();
+
+                if (documentosDeCompras.Count() > 0)
+                {
+                   var documentoDeCompras = documentosDeCompras.First();
+                    MapaDoFLuxo.Add(1, documentoDeCompras.DocumentoPrincipal);
+                    MapaDoFLuxo.Add(11, documentoDeCompras.DocumentoPrincipalAlternativo);
+                    MapaDoFLuxo.Add(2, documentoDeCompras.SegundoDocumento);
+                    MapaDoFLuxo.Add(21, documentoDeCompras.SegundoDocumentoAlternativo);
+                    MapaDoFLuxo.Add(3, documentoDeCompras.TerceiroDocumento);
+                    MapaDoFLuxo.Add(4, documentoDeCompras.QuartoDocumento);
+                    MapaDoFLuxo.Add(5, documentoDeCompras.QuintoDocumento);
+                    MapaDoFLuxo.Add(6, documentoDeCompras.SextoDocumento);
+                }
+
                 foreach (var documentoDeCompras in documentosDeCompras)
                 {
+
                     if (!VeriricarSeNumeroDeProcessoExisteNoDocumentoInterno(documentoDeCompras.NumeroDeProcesso, documentoDeCompras.CodigoPortal, documentoDeCompras.Tipodoc, documentoDeCompras.Entidade))
                     {
                         IntBEDocumentoInterno documento = new IntBEDocumentoInterno();
@@ -186,6 +219,28 @@ namespace PortalApi.Repository
                             documento.Linhas.GetEdita(linhaNumero).DataEntrega = documento.Data;
                             documento.Linhas.GetEdita(linhaNumero).ObraID = linhaDocumento.IdObra.ToString();
                             documento.Linhas.GetEdita(linhaNumero).CCustoCBL = linhaDocumento.CentroDeCusto;
+
+                            if (documento.Tipodoc == "RC")
+                            {
+
+                                string Id = _rasteabilidadeRepository.LinhaOrigemDoDocumentoInternoDeOrigem(documentoDeCompras.NumeroDeProcesso, linhaDocumento.Artigo, "('"+MapaDoFLuxo[1]+"','"+MapaDoFLuxo[11]+"')");
+
+                                if (Id != null)
+                                {
+
+                                    _helperRepository.CriarLog("Rastreabilidade", $" ID GERADO : { Id } -  Documento "+documento.Tipodoc, "Rastreabilidade");
+
+                                    documento.Linhas.GetEdita(linhaNumero).IdLinhaOrigemCopia = Id;
+
+                                }
+                                else
+                                {
+
+                                    _helperRepository.CriarLog("Rastreabilidade", $" ID NÂO GERADO", "Rastreabilidade");
+
+                                }
+
+                            }
 
                         }
 
