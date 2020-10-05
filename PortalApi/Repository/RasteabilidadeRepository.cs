@@ -33,15 +33,15 @@ namespace PortalApi.Repository
                     conexao.Open();
 
                 string queryCabe = $"SELECT l.Id FROM LinhasInternos l inner join CabecInternos c on l.IdCabecInternos = c.Id where c.TipoDoc IN {TipoDocumentos} AND l.Artigo = '{Artigo}' AND c.CDU_PROCESSO = '{NumeroDeProcesso}'";
-                
+
                 DataTable IDdoDocumentos = new DataTable();
-                
+
                 SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
 
-                _helperRepository.CriarLog("Rastreabilidade", $" QUERY:  "+ queryCabe, "Rastreabilidade");
+                _helperRepository.CriarLog("Rastreabilidade", $" QUERY:  " + queryCabe, "Rastreabilidade");
 
                 reader.Fill(IDdoDocumentos);
-                
+
                 if (IDdoDocumentos.Rows.Count > 0)
                 {
 
@@ -65,9 +65,10 @@ namespace PortalApi.Repository
                 conexao.Close();
             }
         }
-        
-        public string BuscarReferenciaDoDocumentoDeCompraDeOrigem(string NumeroDeProcesso, string Artigo)
+
+        public string BuscarOrigemDoDocumetoDeCompra(string NumeroDeProcesso, string TipoDeDocumento)
         {
+
             var conexao = Singleton.ConectarComOBancoBanco;
 
             try
@@ -76,20 +77,20 @@ namespace PortalApi.Repository
                 if (conexao.State != ConnectionState.Open)
                     conexao.Open();
 
-               string queryCabe = $"select ID from CabecInternos where CDU_PROCESSO = '{NumeroDeProcesso}' and TipoDoc in ('SRF','IRF')";
-                
+                string queryCabe = $"select Id from CabecCompras where TipoDoc = '{TipoDeDocumento}' and CDU_Processo = '{NumeroDeProcesso}'";
+
                 DataTable IDdoDocumentos = new DataTable();
-                
+
                 SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
 
                 reader.Fill(IDdoDocumentos);
-                
+
                 if (IDdoDocumentos.Rows.Count > 0)
                 {
 
                     foreach (DataRow Linha in IDdoDocumentos.Rows)
                     {
-                        return Linha["ID"].ToString();
+                        return Linha["Id"].ToString();
                     }
 
                 }
@@ -99,7 +100,7 @@ namespace PortalApi.Repository
             }
             catch (Exception ex)
             {
-                _helperRepository.CriarLog("Integração", "Metodo: BuscarReferenciaDoDocumentoDeOrigem" + ex.Message.ToString(), "Erro");
+                _helperRepository.CriarLog("Integração", "Metodo: BuscarOrigemDoDocumetoDeCompra" + ex.Message.ToString(), "Erro");
                 throw;
             }
             finally
@@ -108,6 +109,37 @@ namespace PortalApi.Repository
             }
         }
 
+        public DataTable BuscarLinhasDoDocumetoDeCompra(string IdDocumentoCompras)
+        {
 
+            var conexao = Singleton.ConectarComOBancoBanco;
+
+            try
+            {
+
+                if (conexao.State != ConnectionState.Open)
+                    conexao.Open();
+
+                string queryCabe = $"select Artigo,NumLinha from LinhasCompras where IdCabecCompras = '{IdDocumentoCompras}'";
+
+                DataTable LinhasDoDocumento = new DataTable();
+
+                SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
+
+                reader.Fill(LinhasDoDocumento);
+
+                return LinhasDoDocumento;
+
+            }
+            catch (Exception ex)
+            {
+                _helperRepository.CriarLog("Integração", "Metodo: BuscarOrigemDoDocumetoDeCompra" + ex.Message.ToString(), "Erro");
+                throw;
+            }
+            finally
+            {
+                conexao.Close();
+            }
+        }
     }
 }

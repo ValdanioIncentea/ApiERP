@@ -31,18 +31,21 @@ namespace PortalApi.Repository
 
                 var MapaDoFLuxo = new Dictionary<int, string>();
 
+                if (documentosDeCompras.Count() > 0)
+                {
+                    var documentoDeCompras = documentosDeCompras.First();
+                    MapaDoFLuxo.Add(1, documentoDeCompras.DocumentoPrincipal);
+                    MapaDoFLuxo.Add(11, documentoDeCompras.DocumentoPrincipalAlternativo);
+                    MapaDoFLuxo.Add(2, documentoDeCompras.SegundoDocumento);
+                    MapaDoFLuxo.Add(21, documentoDeCompras.SegundoDocumentoAlternativo);
+                    MapaDoFLuxo.Add(3, documentoDeCompras.TerceiroDocumento);
+                    MapaDoFLuxo.Add(4, documentoDeCompras.QuartoDocumento);
+                    MapaDoFLuxo.Add(5, documentoDeCompras.QuintoDocumento);
+                    MapaDoFLuxo.Add(6, documentoDeCompras.SextoDocumento);
+                }
+
                 foreach (var documentoDeCompras in documentosDeCompras)
                 {
-
-                    if (MapaDoFLuxo.Count == 0)
-                    {
-                        MapaDoFLuxo.Add(1, documentoDeCompras.DocumentoPrincipal);
-                        MapaDoFLuxo.Add(11, documentoDeCompras.DocumentoPrincipalAlternativo);
-                        MapaDoFLuxo.Add(2, documentoDeCompras.SegundoDocumento);
-                        MapaDoFLuxo.Add(3, documentoDeCompras.TerceiroDocumento);
-                        MapaDoFLuxo.Add(4, documentoDeCompras.QuartoDocumento);
-                        MapaDoFLuxo.Add(5, documentoDeCompras.QuintoDocumento);
-                    }
 
                     if (!VeriricarSeNumeroDeProcessoExisteNoDocumentoDeCompras(documentoDeCompras.NumeroDeProcesso, documentoDeCompras.CodigoPortal, documentoDeCompras.Tipodoc, documentoDeCompras.Entidade))
                     {
@@ -85,25 +88,48 @@ namespace PortalApi.Repository
 
                         int linhaNumero = 0;
 
-                        foreach (var linhaDocumento in documentoDeCompras.Linhas)
+                        if (documento.Tipodoc != MapaDoFLuxo[2])
                         {
 
-                            double Quantidade = linhaDocumento.Quantidade;
+                            string Id = _rasteabilidadeRepository.BuscarOrigemDoDocumetoDeCompra(documentoDeCompras.NumeroDeProcesso, MapaDoFLuxo[2]);
 
-                            string Armazem = linhaDocumento.Armazem;
+                            CmpBEDocumentoCompra DocumentoDePedidoDeCotacao = BSO.Compras.Documentos.EditaID(Id);
 
-                            //BSO.Compras.Documentos.AdicionaLinhaTransformada(
+                            var dt_Linhas = _rasteabilidadeRepository.BuscarLinhasDoDocumetoDeCompra(Id);
 
-                            BSO.Compras.Documentos.AdicionaLinha(documento, linhaDocumento.Artigo, ref Quantidade, ref Armazem, ref Armazem, linhaDocumento.Preco, Convert.ToDouble(linhaDocumento.Desconto));
-                            linhaNumero++;
-                            float TaxaIva = Convert.ToSingle(linhaDocumento.TaxaIva);
-                            documento.Linhas.GetEdita(linhaNumero).Unidade = linhaDocumento.Unidade;
-                            documento.Linhas.GetEdita(linhaNumero).Descricao = linhaDocumento.Descricao;
-                            documento.Linhas.GetEdita(linhaNumero).DataEntrega = documento.DataDoc;
-                            documento.Linhas.GetEdita(linhaNumero).CCustoCBL = linhaDocumento.CentroDeCusto;
-                            documento.Linhas.GetEdita(linhaNumero).TaxaIva = TaxaIva;
-                            documento.Linhas.GetEdita(linhaNumero).CodIva = Convert.ToString(buscarCodigoDoImpostoIva(TaxaIva, documento.DataDoc));
+                            foreach (var linhaDocumento in documentoDeCompras.Linhas)
+                            {
 
+                                DataRow[] CotacoesDoFornecedor = dt_Linhas.Select($"Artigo={linhaDocumento.Artigo}");
+                                var Linha = CotacoesDoFornecedor.First();
+                                var Filial = DocumentoDePedidoDeCotacao.Filial;
+                                var Serie = DocumentoDePedidoDeCotacao.Serie;
+                                BSO.Compras.Documentos.AdicionaLinhaTransformada(documento, DocumentoDePedidoDeCotacao.Tipodoc, DocumentoDePedidoDeCotacao.NumDoc, Convert.ToInt32(Linha["NumLinha"]), ref Filial, ref Serie);
+
+                            }
+
+                        }
+                        else
+                        {
+                            foreach (var linhaDocumento in documentoDeCompras.Linhas)
+                            {
+
+                                double Quantidade = linhaDocumento.Quantidade;
+
+                                string Armazem = linhaDocumento.Armazem;
+
+
+                                BSO.Compras.Documentos.AdicionaLinha(documento, linhaDocumento.Artigo, ref Quantidade, ref Armazem, ref Armazem, linhaDocumento.Preco, Convert.ToDouble(linhaDocumento.Desconto));
+                                linhaNumero++;
+                                float TaxaIva = Convert.ToSingle(linhaDocumento.TaxaIva);
+                                documento.Linhas.GetEdita(linhaNumero).Unidade = linhaDocumento.Unidade;
+                                documento.Linhas.GetEdita(linhaNumero).Descricao = linhaDocumento.Descricao;
+                                documento.Linhas.GetEdita(linhaNumero).DataEntrega = documento.DataDoc;
+                                documento.Linhas.GetEdita(linhaNumero).CCustoCBL = linhaDocumento.CentroDeCusto;
+                                documento.Linhas.GetEdita(linhaNumero).TaxaIva = TaxaIva;
+                                documento.Linhas.GetEdita(linhaNumero).CodIva = Convert.ToString(buscarCodigoDoImpostoIva(TaxaIva, documento.DataDoc));
+
+                            }
                         }
 
                         if (documento.Linhas.NumItens > 0)
@@ -152,7 +178,7 @@ namespace PortalApi.Repository
 
                 if (documentosDeCompras.Count() > 0)
                 {
-                   var documentoDeCompras = documentosDeCompras.First();
+                    var documentoDeCompras = documentosDeCompras.First();
                     MapaDoFLuxo.Add(1, documentoDeCompras.DocumentoPrincipal);
                     MapaDoFLuxo.Add(11, documentoDeCompras.DocumentoPrincipalAlternativo);
                     MapaDoFLuxo.Add(2, documentoDeCompras.SegundoDocumento);
@@ -220,15 +246,15 @@ namespace PortalApi.Repository
                             documento.Linhas.GetEdita(linhaNumero).ObraID = linhaDocumento.IdObra.ToString();
                             documento.Linhas.GetEdita(linhaNumero).CCustoCBL = linhaDocumento.CentroDeCusto;
 
-                            if (documento.Tipodoc == "RC")
+                            if (documento.Tipodoc == MapaDoFLuxo[21])
                             {
 
-                                string Id = _rasteabilidadeRepository.LinhaOrigemDoDocumentoInternoDeOrigem(documentoDeCompras.NumeroDeProcesso, linhaDocumento.Artigo, "('"+MapaDoFLuxo[1]+"','"+MapaDoFLuxo[11]+"')");
+                                string Id = _rasteabilidadeRepository.LinhaOrigemDoDocumentoInternoDeOrigem(linhaDocumento.NumeroDeProcesso, linhaDocumento.Artigo, "('" + MapaDoFLuxo[1] + "','" + MapaDoFLuxo[11] + "')");
 
                                 if (Id != null)
                                 {
 
-                                    _helperRepository.CriarLog("Rastreabilidade", $" ID GERADO : { Id } -  Documento "+documento.Tipodoc, "Rastreabilidade");
+                                    _helperRepository.CriarLog("Rastreabilidade", $" Documento {documento.Tipodoc} | ID GERADO : { Id } -  Documento " + documento.Tipodoc, "Rastreabilidade");
 
                                     documento.Linhas.GetEdita(linhaNumero).IdLinhaOrigemCopia = Id;
 
@@ -236,7 +262,7 @@ namespace PortalApi.Repository
                                 else
                                 {
 
-                                    _helperRepository.CriarLog("Rastreabilidade", $" ID NÂO GERADO", "Rastreabilidade");
+                                    _helperRepository.CriarLog("Rastreabilidade", $"Documento {documento.Tipodoc} ID NÂO GERADO", "Rastreabilidade");
 
                                 }
 
