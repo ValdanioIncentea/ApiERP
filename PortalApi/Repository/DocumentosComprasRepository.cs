@@ -88,45 +88,97 @@ namespace PortalApi.Repository
 
                         int linhaNumero = 0;
 
-                        if (documento.Tipodoc != MapaDoFLuxo[2])
+                        if (documento.Tipodoc == MapaDoFLuxo[4])
                         {
 
-                            string Id = _rasteabilidadeRepository.BuscarOrigemDoDocumetoDeCompra(documentoDeCompras.NumeroDeProcesso, MapaDoFLuxo[2]);
+                            string DocumentoAnterior = MapaDoFLuxo[3];
 
-                            CmpBEDocumentoCompra DocumentoDePedidoDeCotacao = BSO.Compras.Documentos.EditaID(Id);
+                            foreach (var linhaDocumento in documentoDeCompras.Linhas)
+                            {
+
+                                linhaNumero++;
+
+                                var LinhaDoDocumento  = _rasteabilidadeRepository.PesquisarLinhaDoDocumetoNoDocumentoDeOrgiem(linhaDocumento.NumeroDeProcesso, DocumentoAnterior, linhaDocumento.Artigo);
+                                
+                                var Filial = LinhaDoDocumento.Rows[0]["Filial"].ToString();
+                                var Serie = LinhaDoDocumento.Rows[0]["Serie"].ToString();
+                                var NumDoc = Convert.ToInt32(LinhaDoDocumento.Rows[0]["NumDoc"]);
+                                var NumLinha = Convert.ToInt32(LinhaDoDocumento.Rows[0]["NumLinha"]);
+
+                                float TaxaIva = Convert.ToSingle(linhaDocumento.TaxaIva);
+
+                                BSO.Compras.Documentos.AdicionaLinhaTransformada(documento, DocumentoAnterior, NumDoc, NumLinha, ref Filial, ref Serie);
+
+                                documento.Linhas.GetEdita(linhaNumero).PrecUnit = linhaDocumento.Preco;
+                                documento.Linhas.GetEdita(linhaNumero).Desconto1 = Convert.ToDouble(linhaDocumento.Desconto);
+                                documento.Linhas.GetEdita(linhaNumero).TaxaIva = TaxaIva;
+                                documento.Linhas.GetEdita(linhaNumero).CamposUtil["CDU_PROCESSO"].Valor = linhaDocumento.NumeroDeProcesso;
+                                documento.Linhas.GetEdita(linhaNumero).CodIva = Convert.ToString(buscarCodigoDoImpostoIva(TaxaIva, documento.DataDoc));
+
+                            }
+
+                        }else if (documento.Tipodoc == MapaDoFLuxo[3] || documento.Tipodoc == MapaDoFLuxo[5])
+                        {
+
+                            string DocumentoAnterior =  documento.Tipodoc == MapaDoFLuxo[3] ? MapaDoFLuxo[2] : MapaDoFLuxo[4];
+
+                            string Id = _rasteabilidadeRepository.BuscarOrigemDoDocumetoDeCompra(documentoDeCompras.NumeroDeProcesso, DocumentoAnterior, documentoDeCompras.Entidade);
+
+                            if (Id == null)
+                            {
+                                _helperRepository.CriarLog("Integração", "Não foi encontrado o ID do documento pai do documento: " + documentoDeCompras.Tipodoc + "/" + documentoDeCompras.NumeroDeProcesso, "Erro");
+                            }
+
+                            var DocumentoDePedidoDeCotacao = _rasteabilidadeRepository.PesquisarDoDocumetoPorId(Id);
 
                             var dt_Linhas = _rasteabilidadeRepository.BuscarLinhasDoDocumetoDeCompra(Id);
 
                             foreach (var linhaDocumento in documentoDeCompras.Linhas)
                             {
 
+                                linhaNumero++;
+
                                 DataRow[] CotacoesDoFornecedor = dt_Linhas.Select($"Artigo={linhaDocumento.Artigo}");
+
                                 var Linha = CotacoesDoFornecedor.First();
-                                var Filial = DocumentoDePedidoDeCotacao.Filial;
-                                var Serie = DocumentoDePedidoDeCotacao.Serie;
-                                BSO.Compras.Documentos.AdicionaLinhaTransformada(documento, DocumentoDePedidoDeCotacao.Tipodoc, DocumentoDePedidoDeCotacao.NumDoc, Convert.ToInt32(Linha["NumLinha"]), ref Filial, ref Serie);
+
+                                var Filial = DocumentoDePedidoDeCotacao["Filial"];
+                                var Serie = DocumentoDePedidoDeCotacao["Serie"];
+                                var NumDoc = Convert.ToInt32(DocumentoDePedidoDeCotacao["NumDoc"]);
+
+                                float TaxaIva = Convert.ToSingle(linhaDocumento.TaxaIva);
+
+                                BSO.Compras.Documentos.AdicionaLinhaTransformada(documento, DocumentoAnterior, NumDoc, Convert.ToInt32(Linha["NumLinha"]), ref Filial, ref Serie);
+
+                                documento.Linhas.GetEdita(linhaNumero).PrecUnit = linhaDocumento.Preco;
+                                documento.Linhas.GetEdita(linhaNumero).Desconto1 = Convert.ToDouble(linhaDocumento.Desconto);
+                                documento.Linhas.GetEdita(linhaNumero).TaxaIva = TaxaIva;
+                                documento.Linhas.GetEdita(linhaNumero).Quantidade = linhaDocumento.Quantidade;
+                                documento.Linhas.GetEdita(linhaNumero).CamposUtil["CDU_PROCESSO"].Valor = linhaDocumento.NumeroDeProcesso;
+                                documento.Linhas.GetEdita(linhaNumero).CodIva = Convert.ToString(buscarCodigoDoImpostoIva(TaxaIva, documento.DataDoc));
 
                             }
 
                         }
-                        else
+                        else if (documento.Tipodoc == MapaDoFLuxo[2])
                         {
                             foreach (var linhaDocumento in documentoDeCompras.Linhas)
                             {
+
+                                linhaNumero++;
 
                                 double Quantidade = linhaDocumento.Quantidade;
 
                                 string Armazem = linhaDocumento.Armazem;
 
-
                                 BSO.Compras.Documentos.AdicionaLinha(documento, linhaDocumento.Artigo, ref Quantidade, ref Armazem, ref Armazem, linhaDocumento.Preco, Convert.ToDouble(linhaDocumento.Desconto));
-                                linhaNumero++;
                                 float TaxaIva = Convert.ToSingle(linhaDocumento.TaxaIva);
                                 documento.Linhas.GetEdita(linhaNumero).Unidade = linhaDocumento.Unidade;
                                 documento.Linhas.GetEdita(linhaNumero).Descricao = linhaDocumento.Descricao;
                                 documento.Linhas.GetEdita(linhaNumero).DataEntrega = documento.DataDoc;
                                 documento.Linhas.GetEdita(linhaNumero).CCustoCBL = linhaDocumento.CentroDeCusto;
                                 documento.Linhas.GetEdita(linhaNumero).TaxaIva = TaxaIva;
+                                documento.Linhas.GetEdita(linhaNumero).CamposUtil["CDU_PROCESSO"].Valor = linhaDocumento.NumeroDeProcesso;
                                 documento.Linhas.GetEdita(linhaNumero).CodIva = Convert.ToString(buscarCodigoDoImpostoIva(TaxaIva, documento.DataDoc));
 
                             }
@@ -145,10 +197,6 @@ namespace PortalApi.Repository
                                 ReferenciarDocumentosIntegrados(documentoDeCompras.CodigoPortal, Referencia);
                             _helperRepository.CriarLog("Integração", $" O documento: { documento.Tipodoc}/{ documento.Serie}/ { documento.NumDoc}", "Sucesso");
                         }
-                    }
-                    else
-                    {
-
                     }
                 }
                 return true;
