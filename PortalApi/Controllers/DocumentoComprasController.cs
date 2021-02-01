@@ -28,20 +28,31 @@ namespace PortalApi.Controllers
         public DocumentoComprasController()
         {
 
-            if (clienteHttp == null)
-            {
-                clienteHttp = new HttpClient();
-            }
-
-            if (clienteHttp.BaseAddress == null)
-            {
-                clienteHttp.BaseAddress = new Uri("http://localhost:44309/api/");
-                //clienteHttp.BaseAddress = new Uri("http://incenteaao-001-site6.dtempurl.com/api/");
-            }
-
             BSO = Singleton.AbrirEmpresaERPV10;
 
         }
+
+        [Route("api/erp/ExamOpenCompany")]
+        [HttpGet]
+        public string ExamOpenCompany()
+        {
+
+            try
+            {
+                //var test = Singleton.AbrirEmpresaERPV10;
+                if(BSO != null)
+                {
+                    return "Empresa Aberta";
+                }
+                return "Empresa não aberta 1";
+            }
+            catch (Exception e)
+            {
+                return "Empresa não aberta 2: "+e.Message;
+            }         
+
+        }
+        
         [Route("api/DocumentoInterno/Importar")]
         [HttpPost]
         public HttpResponseMessage IntegrarDocumentoInternosPeloPortal(List<DocumentoDeCompras> documentoDeCompras)
@@ -49,6 +60,8 @@ namespace PortalApi.Controllers
 
             try
             {
+                documentosComprasRepository.CriaCDUEmFaltaNasTabelas();
+                documentosComprasRepository.CriaTDUparaIntegracaoEmFalta();
                 return Request.CreateResponse(HttpStatusCode.OK, documentosComprasRepository.CriarDocumentoInterno(BSO, documentoDeCompras));
             }
             catch (Exception e)
@@ -65,6 +78,8 @@ namespace PortalApi.Controllers
         {
             try
             {
+                documentosComprasRepository.CriaCDUEmFaltaNasTabelas();
+                documentosComprasRepository.CriaTDUparaIntegracaoEmFalta();
                 return Request.CreateResponse(HttpStatusCode.OK, documentosComprasRepository.CriarDocumentoDeCompra(BSO, documentoDeCompras));
             }
             catch (Exception e)
