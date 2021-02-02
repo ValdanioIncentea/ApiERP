@@ -66,8 +66,6 @@ namespace PortalApi.Repository
 
                     CBL = PrefixoConta.Valor(col);
 
-
-
                     if (CBL != "" && SegmentoTerceiro == "001")
                     {
                         CBL = CBL.Substring(0, 4) + "1";
@@ -83,9 +81,10 @@ namespace PortalApi.Repository
                         CBL = PrefixoConta.Valor(col) + ContaCBL;
                     }
 
-
-                    if (PrefixoConta.Valor(col) != "")
+                    if (CBL != "")
                     {
+
+
 
                         Conta.Conta = CBL.Replace("?", "");
                         Conta.Descricao = Nome;
@@ -94,20 +93,16 @@ namespace PortalApi.Repository
                         Conta.Entidade = Entidade;
                         Conta.Ano = Ano;
                         Conta.TipoEntidade = TipoEntidade;
-
                         BSO.Contabilidade.PlanoContas.Actualiza(Conta);
+
                     }
 
-
-
-
                     col = col + 1;
+
                 }
 
-                if (TipoEntidade == "C")
-                    AssociarEntidadeComAContabilidae(1, Ano, Entidade, ContaCBL, "001", "1");
-                if (TipoEntidade == "F")
-                    AssociarEntidadeComAContabilidae(2, Ano, Entidade, ContaCBL, "001", "1");
+                if (TipoEntidade == "C" || TipoEntidade == "F")
+                    AssociarEntidadeComAContabilidae((TipoEntidade == "C" ? 1 : 2), Ano, Entidade, ContaCBL, "001", "1");
 
             }
             catch (Exception ex)

@@ -26,6 +26,8 @@ namespace PortalApi.Repository
 
             var DocumentoActual = new DocumentoDeCompras();
 
+            string TipoDeDocumento = "";
+
             var CodigoPortalDocumentosIntegrados = new List<int>();
 
             try
@@ -61,7 +63,7 @@ namespace PortalApi.Repository
                         documento.TipoEntidade = documentoDeCompras.TipoEntidade;
                         documento.Entidade = documentoDeCompras.Entidade;
                         documento.NumDocExterno = documentoDeCompras.NumDocExterno;
-
+                        TipoDeDocumento = documento.Tipodoc;
                         BSO.Compras.Documentos.PreencheDadosRelacionados(documento);
 
                         documento.DataDoc = documentoDeCompras.DataDoc;
@@ -233,7 +235,7 @@ namespace PortalApi.Repository
 
                 BSO.FechaEmpresaTrabalho();
 
-                _helperRepository.CriarLog("Integração", "Integração de Documento de Compra: " + e.Message.ToString(), "Erro");
+                _helperRepository.CriarLog("Integração", "Integração de Documento de Compra: "+TipoDeDocumento+" - "+ e.Message.ToString(), "Erro");
 
                 return false;
 
@@ -247,6 +249,8 @@ namespace PortalApi.Repository
             var DocumentoActual = new DocumentoDeCompras();
 
             var CodigoPortalDocumentosIntegrados = new List<int>();
+
+            string TipoDeDocumento = "";
 
             try
             {
@@ -282,6 +286,8 @@ namespace PortalApi.Repository
                         documento.TipoEntidade = documentoDeCompras.TipoEntidade;
                         documento.Entidade = documentoDeCompras.Entidade;
                         documento.Referencia = documentoDeCompras.NumDocExterno;
+
+                        TipoDeDocumento = documento.Tipodoc;
 
                         BSO.Internos.Documentos.PreencheDadosRelacionados(documento);
                         documento.Data = documentoDeCompras.DataDoc;
@@ -388,7 +394,8 @@ namespace PortalApi.Repository
                 }
 
                 BSO.FechaEmpresaTrabalho();
-                _helperRepository.CriarLog("Integração", "Integração de Documento Interno: " + e.Message.ToString(), "Erro");
+
+                _helperRepository.CriarLog("Integração", "Integração de Documento Interno: "+ TipoDeDocumento+ " - "+ e.Message.ToString(), "Erro");
 
                 return e.Message;
 
@@ -467,6 +474,7 @@ namespace PortalApi.Repository
 
                 try
                 {
+
                     conexao.Open();
 
                     Comando.CommandText = $"insert into TDU_RefDocumentosIntegrados(CDU_ID,CDU_Referencia) values ({ID},'{Referencia}')";
@@ -716,10 +724,10 @@ namespace PortalApi.Repository
                     conexao.Open();
 
                     Comando.CommandText = $"IF NOT EXISTS(SELECT id FROM syscolumns WHERE id=OBJECT_ID('" + Tabela + "','u'))"
-                    + "BEGIN CREATE TABLE " + Tabela + " (CDU_ID int identity primary key,CDU_Referencia varchar(100) not null)"
-                    + "Insert into StdTabelasVar(Tabela,Apl) Values('" + Tabela + "','RDI')"
-                       + "Insert into StdCamposVar(Tabela,Campo,Descricao,Texto,Visivel,DadosSensiveis) Values('" + Tabela + "','CDU_ID','campo da tabela','Para a integracao',0,0)"
-                       + "Insert into StdCamposVar(Tabela,Campo,Descricao,Texto,Visivel,DadosSensiveis) Values('" + Tabela + "','CDU_Referencia','campo da tabela','Para a integracao',0,0)"
+                    + "BEGIN CREATE TABLE " + Tabela + " (CDU_ID int NOT NULL, CDU_Referencia varchar(100) not null) "
+                    + "Insert into StdTabelasVar(Tabela,Apl) Values('" + Tabela + "','RDI') "
+                       + "Insert into StdCamposVar(Tabela,Campo,Descricao,Texto,Visivel,DadosSensiveis) Values('" + Tabela + "','CDU_ID','campo da tabela','Para a integracao',0,0) "
+                       + "Insert into StdCamposVar(Tabela,Campo,Descricao,Texto,Visivel,DadosSensiveis) Values('" + Tabela + "','CDU_Referencia','campo da tabela','Para a integracao',0,0) "
                     + "END";
 
                     Comando.CommandType = CommandType.Text;

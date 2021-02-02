@@ -21,7 +21,7 @@ namespace PortalApi.Controllers
         [HttpGet]
         public void IntegrarFornecedor()
         {
-           entidadeRepository.IntegrarFornecedor();
+           //entidadeRepository.IntegrarFornecedor();
         }        
         
     }
