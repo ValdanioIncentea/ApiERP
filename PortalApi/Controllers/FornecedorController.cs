@@ -15,14 +15,8 @@ namespace PortalApi.Controllers
 
     public class FornecedorController : ApiController
     {
-        private readonly EntidadeRepository entidadeRepository = new EntidadeRepository();
-
-        [Route("api/Fornecedor/Integrar")]
-        [HttpGet]
-        public void IntegrarFornecedor()
-        {
-           //entidadeRepository.IntegrarFornecedor();
-        }        
+          
         
     }
+
 }

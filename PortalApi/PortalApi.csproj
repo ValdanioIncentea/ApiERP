@@ -100,6 +100,9 @@
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\ErpDS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="GcpRLL">
+      <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\GcpRLL.dll</HintPath>
+    </Reference>
     <Reference Include="IBasBS100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=11cd844aca152173, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\PRIMAVERA\SG100\Apl\IBasBS100.dll</HintPath>
@@ -315,6 +318,7 @@
     <Compile Include="Repository\HelperRepository.cs" />
     <Compile Include="Repository\RasteabilidadeRepository.cs" />
     <Compile Include="ViewModel\DocumentoViewModel.cs" />
+    <Compile Include="ViewModel\FornecedorViewModel.cs" />
     <Compile Include="ViewModel\MovimentosViewModel.cs" />
     <Compile Include="ViewModel\LoteViewModel.cs" />
     <Compile Include="ViewModel\LocalizacaoViewModel.cs" />
@@ -328,7 +332,6 @@
     <Compile Include="ViewModel\DocumentosIntegradoViewModel.cs" />
     <Compile Include="ViewModel\EntidadesViewModel.cs" />
     <Compile Include="ViewModel\FamiliaViewModel.cs" />
-    <Compile Include="ViewModel\FotosUrl.cs" />
     <Compile Include="ViewModel\ObrasViewModel.cs" />
     <Compile Include="ViewModel\UnidadeConversaoViewModel.cs" />
     <Compile Include="ViewModel\ValidarDocumentoCompraViewModel.cs" />

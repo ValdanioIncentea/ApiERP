@@ -24,12 +24,21 @@ namespace PortalApi.Controllers
 
         private readonly DocumentosComprasRepository documentosComprasRepository = new DocumentosComprasRepository();
         private ErpBS BSO;
-        public static HttpClient clienteHttp;
+        public static HttpClient clienteHttp; 
+        private readonly EntidadeRepository entidadeRepository = new EntidadeRepository();
+
         public DocumentoComprasController()
         {
 
             BSO = Singleton.AbrirEmpresaERPV10;
 
+        }
+
+        [Route("api/Fornecedor/Integrar")]
+        [HttpPost]
+        public void IntegrarFornecedor(List<FornecedorViewModel> Fornecedores)
+        {
+            entidadeRepository.IntegrarFornecedor(BSO,Fornecedores);
         }
 
         [Route("api/erp/ExamOpenCompany")]
