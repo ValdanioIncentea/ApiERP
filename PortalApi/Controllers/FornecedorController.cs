@@ -15,8 +15,27 @@ namespace PortalApi.Controllers
 
     public class FornecedorController : ApiController
     {
-          
-        
+
+        EntidadeRepository entidadeRepository = new EntidadeRepository();
+
+        [Route("api/Fornecedor/BuscarEntidadesIntegradas")]
+        [HttpGet]
+        public List<DadosFornecedoViewModel> BuscarEntidadesIntegradas()
+        {
+
+            return entidadeRepository.BuscarEntidadesIntegradas();
+
+        }
+
+        [Route("api/Fornecedor/EliminarReferenciasDeEntidadesIntegradas")]
+        [HttpPost]
+        public void EliminarReferenciasDeEntidadesIntegradas(List<DadosFornecedoViewModel> Dados)
+        {
+
+            entidadeRepository.EliminarReferenciasDeEntidadesIntegradas(Dados);
+
+        }
+
     }
 
 }

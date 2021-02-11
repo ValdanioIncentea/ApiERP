@@ -65,9 +65,14 @@ namespace PortalApi.Repository
 
                         BSO.Base.Fornecedores.Actualiza(Fornecedor);
 
-                        int anoCBL = BSO.Contabilidade.ExerciciosCBL.DaUltimoAno();
+                        CriaTDUparaEntidadesIntegradas();
 
-                        CriaContaCBL(BSO, _Fornecedor.Codigo, _Fornecedor.Nome, "F", _Fornecedor.Codigo, anoCBL, _Fornecedor.SegmentoTerceiro);
+                        RefereciarEntidadesIntegradas(_Fornecedor.Codigo);
+
+                        //int anoCBL = BSO.Contabilidade.ExerciciosCBL.DaUltimoAno();
+
+                        if (_Fornecedor.HasContabilidade)
+                            CriaContaCBL(BSO, _Fornecedor.Codigo, _Fornecedor.Nome, "F", DateTime.Now.Year, _Fornecedor.SegmentoTerceiro);
 
                     }
                 }
@@ -79,11 +84,12 @@ namespace PortalApi.Repository
 
         }
 
-        public void CriaContaCBL(ErpBS BSO, string Entidade, string Nome, string TipoEntidade, string ContaCBL, int Ano, string SegmentoTerceiro)
+        public void CriaContaCBL(ErpBS BSO, string Entidade, string Nome, string TipoEntidade, int Ano, string SegmentoTerceiro)
         {
 
             var strSQL = "";
-            string CBL;
+            string PrefixoDaConta;
+            string ContaCBL = CriarProximoNumeroDaConta().ToString();
 
             if (TipoEntidade == "C")
             {
@@ -98,41 +104,41 @@ namespace PortalApi.Repository
             try
             {
 
-                StdBELista PrefixoConta = new StdBELista();
+                StdBELista PrefixosConta = new StdBELista();
 
-                PrefixoConta = BSO.Consulta(strSQL);
+                PrefixosConta = BSO.Consulta(strSQL);
 
-                var TotalColunas = PrefixoConta.NumColunas();
+                var TotalColunas = PrefixosConta.NumColunas();
 
                 for (int i = 0; i < TotalColunas; i++)
                 {
 
                     CblBEConta Conta = new CblBEConta();
 
-                    CBL = Convert.ToString(PrefixoConta.Valor(i));
+                    PrefixoDaConta = Convert.ToString(PrefixosConta.Valor(i));
 
-                    if (!String.IsNullOrEmpty(CBL))
+                    if (!String.IsNullOrEmpty(PrefixoDaConta))
                     {
 
-                        CBL = PrefixoConta.Valor(i);
+                        PrefixoDaConta = PrefixosConta.Valor(i);
 
                         if (SegmentoTerceiro == "001")
                         {
-                            CBL = CBL.Substring(0, 4) + "1" + ContaCBL;
+                            PrefixoDaConta = PrefixoDaConta.Substring(0, 4) + "1" + ContaCBL;
                         }
                         else if (SegmentoTerceiro == "002")
                         {
-                            CBL = CBL.Substring(0, 4) + "2" + ContaCBL;
+                            PrefixoDaConta = PrefixoDaConta.Substring(0, 4) + "2" + ContaCBL;
                         }
                         else
                         {
-                            CBL = CBL + ContaCBL;
+                            PrefixoDaConta = PrefixoDaConta + ContaCBL;
                         }
 
-                        if (CBL != "")
+                        if (PrefixoDaConta != "")
                         {
 
-                            Conta.Conta = CBL.Replace("?", "");
+                            Conta.Conta = PrefixoDaConta.Replace("?", "");
                             Conta.Descricao = Nome;
                             Conta.TipoConta = "M";
                             Conta.Grupo = "TERC";
@@ -161,6 +167,105 @@ namespace PortalApi.Repository
 
         }
 
+        public long CriarProximoNumeroDaConta()
+        {
+
+            using (SqlConnection conexao = new SqlConnection(Singleton.ConnctionString))
+            {
+
+                try
+                {
+
+                    conexao.Open();
+
+                    DataTable Tabela = new DataTable();
+
+                    string queryCabe = "select top(1) SUBSTRING(Conta, 5, LEN(Conta)-1)+1 as Conta from PlanoContas order by DataCriacao desc";
+
+                    SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
+
+                    reader.Fill(Tabela);
+
+                    if (Tabela.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow Linha in Tabela.Rows)
+                        {
+
+                            return Convert.ToInt64(Linha["Conta"]);
+
+                        }
+
+                    }
+
+                    conexao.Close();
+                    return 0;
+
+                }
+                catch (Exception ex)
+                {
+                    conexao.Close();
+                    _helperRepository.CriarLog("Integração", "Metodo : CriarProximoNumeroDaConta" + ex.Message.ToString(), "Erro");
+                    throw;
+                }
+
+            }
+
+        }
+
+        public List<DadosFornecedoViewModel> BuscarEntidadesIntegradas()
+        {
+
+            using (SqlConnection conexao = new SqlConnection(Singleton.ConnctionString))
+            {
+
+                try
+                {
+
+                    conexao.Open();
+
+                    DataTable Tabela = new DataTable();
+
+                    string queryCabe = "select CDU_ID, CDU_Referencia from TDU_EntidadesIntegradas";
+
+                    SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
+
+                    reader.Fill(Tabela);
+
+                    List<DadosFornecedoViewModel> DadosFornecedorLista = new List<DadosFornecedoViewModel>();
+
+                    if (Tabela.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow Linha in Tabela.Rows)
+                        {
+
+                            DadosFornecedoViewModel DadosFornecedor = new DadosFornecedoViewModel();
+
+                            DadosFornecedor.Codigo = Linha["CDU_ID"].ToString();
+                            DadosFornecedor.Descricao = Linha["CDU_Referencia"].ToString();
+
+                            DadosFornecedorLista.Add(DadosFornecedor);
+
+                        }
+
+                    }
+
+                    conexao.Close();
+                    return DadosFornecedorLista;
+
+                }
+                catch (Exception ex)
+                {
+                    conexao.Close();
+                    _helperRepository.CriarLog("Integração", "Metodo : BuscarEntidadesIntegradas" + ex.Message.ToString(), "Erro");
+                    throw;
+                }
+
+            }
+
+        }
+
         public void CriaRetencao(ErpBS BSO, string TipoEntidade, string Entidade, string TipoRendimento, double Valor)
         {
             BasBEOutraRetencao RetEntidade = new BasBEOutraRetencao();
@@ -182,7 +287,7 @@ namespace PortalApi.Repository
             RetEntidade.Entidade = Entidade;
             RetEntidade.TipoEntidadeRetencao = "E";
             RetEntidade.TipoRendimento = TipoRendimento;
-            RetEntidade.EntidadeRetencao =EntidadeRetencao;
+            RetEntidade.EntidadeRetencao = EntidadeRetencao;
 
             if (Valor != 0)
             {
@@ -231,6 +336,116 @@ namespace PortalApi.Repository
 
                     conexao.Close();
                     _helperRepository.CriarLog("Integração", "Metodo : AssociarEntidadeComAContabilidae(); " + ex.Message.ToString(), "Erro");
+                    throw;
+
+                }
+
+            }
+
+        }
+
+
+        public void RefereciarEntidadesIntegradas(string Referencia)
+        {
+
+            SqlCommand Comando = new SqlCommand();
+
+            using (SqlConnection conexao = new SqlConnection(Singleton.ConnctionString))
+            {
+
+                try
+                {
+
+                    conexao.Open();
+
+                    Comando.CommandText = $"insert into TDU_EntidadesIntegradas(CDU_Referencia) values ('{Referencia}')";
+                    Comando.CommandType = CommandType.Text;
+                    Comando.Connection = conexao;
+                    Comando.ExecuteNonQuery();
+
+                }
+                catch (Exception ex)
+                {
+
+                    conexao.Close();
+                    _helperRepository.CriarLog("Integração", "Metodo: TDU_EntidadesIntegradas " + ex.Message.ToString(), "Erro");
+                    throw ex;
+
+                }
+
+            }
+
+        }
+
+        public void EliminarReferenciasDeEntidadesIntegradas(List<DadosFornecedoViewModel> Dados)
+        {
+
+            SqlCommand Comando = new SqlCommand();
+
+            using (SqlConnection conexao = new SqlConnection(Singleton.ConnctionString))
+            {
+
+                try
+                {
+
+                    conexao.Open();
+
+                    foreach (var dado in Dados)
+                    {
+                        Comando.CommandText = $"DELETE FROM TDU_EntidadesIntegradas WHERE CDU_Referencia = '{ dado.Descricao }'";
+                        Comando.CommandType = CommandType.Text;
+                        Comando.Connection = conexao;
+                        Comando.ExecuteNonQuery();
+                    }
+
+                    conexao.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    conexao.Close();
+                    _helperRepository.CriarLog("Integração", "Metodo : <List>EliminarReferenciasDeEntidadesIntegradas" + ex.Message.ToString(), "Erro");
+                    throw;
+                }
+
+            }
+
+        }
+
+        public void CriaTDUparaEntidadesIntegradas()
+        {
+
+            string Tabela = "TDU_EntidadesIntegradas";
+
+            SqlCommand Comando = new SqlCommand();
+
+            using (SqlConnection conexao = new SqlConnection(Singleton.ConnctionString))
+            {
+
+                try
+                {
+
+                    conexao.Open();
+
+                    Comando.CommandText = $"IF NOT EXISTS(SELECT id FROM syscolumns WHERE id=OBJECT_ID('" + Tabela + "','u'))"
+                    + "BEGIN CREATE TABLE " + Tabela + " (CDU_ID int identity primary key NOT NULL, CDU_Referencia varchar(100) not null) "
+                    + "Insert into StdTabelasVar(Tabela,Apl) Values('" + Tabela + "','RDI') "
+                       + "Insert into StdCamposVar(Tabela,Campo,Descricao,Texto,Visivel,DadosSensiveis) Values('" + Tabela + "','CDU_ID','campo da tabela','Para a integracao',0,0) "
+                       + "Insert into StdCamposVar(Tabela,Campo,Descricao,Texto,Visivel,DadosSensiveis) Values('" + Tabela + "','CDU_Referencia','campo da tabela','Para a integracao',0,0) "
+                    + "END";
+
+                    Comando.CommandType = CommandType.Text;
+                    Comando.Connection = conexao;
+                    Comando.ExecuteNonQuery();
+
+                    conexao.Close();
+
+                }
+                catch (Exception ex)
+                {
+
+                    conexao.Close();
+                    _helperRepository.CriarLog("Integração", "Metodo : TDU_EntidadesIntegradas(); " + ex.Message.ToString(), "Erro");
                     throw;
 
                 }

@@ -17,6 +17,28 @@ namespace PortalApi.Controllers
     {
         private readonly DadosMestreRepository dadosMestreRepository = new DadosMestreRepository();
 
+        
+        [Route("api/DadosMestre/BuscarSeguimentosTerceiros")]
+        [HttpGet]
+        public List<DadosFornecedoViewModel> BuscarSeguimentosTerceiros()
+        {
+            return dadosMestreRepository.BuscarSeguimentosTerceiros();
+        }
+        
+        [Route("api/DadosMestre/BuscarDocumentosBancos")]
+        [HttpGet]
+        public List<DadosFornecedoViewModel> BuscarDocumentosBancos()
+        {
+            return dadosMestreRepository.BuscarDocumentosBancos();
+        } 
+        
+        [Route("api/DadosMestre/BuscarCondicaoDePagamentos")]
+        [HttpGet]
+        public List<DadosFornecedoViewModel> BuscarCondicaoDePagamentos()
+        {
+            return dadosMestreRepository.BuscarCondicaoDePagamentos();
+        }
+        
         [Route("api/DadosMestre/Armazens")]
         [HttpGet]
         public List<ArmazenViewModel> BuscarArmazens()

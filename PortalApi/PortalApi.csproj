@@ -317,6 +317,7 @@
     <Compile Include="Repository\DocumentosComprasRepository.cs" />
     <Compile Include="Repository\HelperRepository.cs" />
     <Compile Include="Repository\RasteabilidadeRepository.cs" />
+    <Compile Include="ViewModel\DadosFornecedorViewModel.cs" />
     <Compile Include="ViewModel\DocumentoViewModel.cs" />
     <Compile Include="ViewModel\FornecedorViewModel.cs" />
     <Compile Include="ViewModel\MovimentosViewModel.cs" />

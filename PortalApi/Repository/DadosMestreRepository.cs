@@ -954,5 +954,165 @@ namespace PortalApi.Repository
                 throw ex;
             }
         }
+
+        public List<DadosFornecedoViewModel> BuscarSeguimentosTerceiros()
+        {
+
+            using (SqlConnection conexao = new SqlConnection(Singleton.ConnctionString))
+            {
+
+                try
+                {
+
+                    conexao.Open();
+
+                    DataTable Tabela = new DataTable();
+
+                    string queryCabe = "select SegmentoTerceiro, Descricao from SegmentoTerceiros";
+
+                    SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
+
+                    reader.Fill(Tabela);
+
+                    List<DadosFornecedoViewModel> DadosFornecedorLista = new List<DadosFornecedoViewModel>();
+
+                    if (Tabela.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow Linha in Tabela.Rows)
+                        {
+
+                            DadosFornecedoViewModel DadosFornecedor = new DadosFornecedoViewModel();
+
+                            DadosFornecedor.Codigo = Linha["SegmentoTerceiro"].ToString();
+                            DadosFornecedor.Descricao = Linha["Descricao"].ToString();
+
+                            DadosFornecedorLista.Add(DadosFornecedor);
+
+                        }
+
+                    }
+
+                    conexao.Close();
+                    return DadosFornecedorLista;
+
+                }
+                catch (Exception ex)
+                {
+                    conexao.Close();
+                    _helperRepository.CriarLog("Integração", "Metodo : BuscarSeguimentosTerceiros" + ex.Message.ToString(), "Erro");
+                    throw;
+                }
+
+            }
+
+        } 
+
+        public List<DadosFornecedoViewModel> BuscarDocumentosBancos()
+        {
+
+            using (SqlConnection conexao = new SqlConnection(Singleton.ConnctionString))
+            {
+
+                try
+                {
+
+                    conexao.Open();
+
+                    DataTable Tabela = new DataTable();
+
+                    string queryCabe = "select Movim, Descricao from DocumentosBancos";
+
+                    SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
+
+                    reader.Fill(Tabela);
+
+                    List<DadosFornecedoViewModel> DadosFornecedorLista = new List<DadosFornecedoViewModel>();
+
+                    if (Tabela.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow Linha in Tabela.Rows)
+                        {
+
+                            DadosFornecedoViewModel DadosFornecedor = new DadosFornecedoViewModel();
+
+                            DadosFornecedor.Codigo = Linha["Movim"].ToString();
+                            DadosFornecedor.Descricao = Linha["Descricao"].ToString();
+
+                            DadosFornecedorLista.Add(DadosFornecedor);
+
+                        }
+
+                    }
+
+                    conexao.Close();
+                    return DadosFornecedorLista;
+
+                }
+                catch (Exception ex)
+                {
+                    conexao.Close();
+                    _helperRepository.CriarLog("Integração", "Metodo : BuscarDocumentosBancos" + ex.Message.ToString(), "Erro");
+                    throw;
+                }
+
+            }
+
+        } 
+        
+        public List<DadosFornecedoViewModel> BuscarCondicaoDePagamentos()
+        {
+
+            using (SqlConnection conexao = new SqlConnection(Singleton.ConnctionString))
+            {
+
+                try
+                {
+
+                    conexao.Open();
+
+                    DataTable Tabela = new DataTable();
+
+                    string queryCabe = "select CondPag, Descricao from CondPag";
+
+                    SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
+
+                    reader.Fill(Tabela);
+
+                    List<DadosFornecedoViewModel> DadosFornecedorLista = new List<DadosFornecedoViewModel>();
+
+                    if (Tabela.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow Linha in Tabela.Rows)
+                        {
+
+                            DadosFornecedoViewModel DadosFornecedor = new DadosFornecedoViewModel();
+
+                            DadosFornecedor.Codigo = Linha["CondPag"].ToString();
+                            DadosFornecedor.Descricao = Linha["Descricao"].ToString();
+
+                            DadosFornecedorLista.Add(DadosFornecedor);
+
+                        }
+
+                    }
+
+                    conexao.Close();
+                    return DadosFornecedorLista;
+
+                }
+                catch (Exception ex)
+                {
+                    conexao.Close();
+                    _helperRepository.CriarLog("Integração", "Metodo : BuscarCondicaoDePagamentos" + ex.Message.ToString(), "Erro");
+                    throw;
+                }
+
+            }
+
+        }
+
     }
 }

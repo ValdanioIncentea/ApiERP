@@ -25,6 +25,8 @@ namespace PortalApi.Models
         public string condPag { get; set; }
         public string ModoPag { get; set; }
         public bool PessoaSingular { get; set; }
+        public bool HasContabilidade { get; set; }
+        public bool Retencao { get; set; }
 
     }
 }

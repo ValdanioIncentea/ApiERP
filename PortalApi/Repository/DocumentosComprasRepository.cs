@@ -235,7 +235,7 @@ namespace PortalApi.Repository
 
                 BSO.FechaEmpresaTrabalho();
 
-                _helperRepository.CriarLog("Integração", "Integração de Documento de Compra: "+TipoDeDocumento+" - "+ e.Message.ToString(), "Erro");
+                _helperRepository.CriarLog("Integração", "Integração de Documento de Compra: " + TipoDeDocumento + " - " + e.Message.ToString(), "Erro");
 
                 return false;
 
@@ -395,7 +395,7 @@ namespace PortalApi.Repository
 
                 BSO.FechaEmpresaTrabalho();
 
-                _helperRepository.CriarLog("Integração", "Integração de Documento Interno: "+ TipoDeDocumento+ " - "+ e.Message.ToString(), "Erro");
+                _helperRepository.CriarLog("Integração", "Integração de Documento Interno: " + TipoDeDocumento + " - " + e.Message.ToString(), "Erro");
 
                 return e.Message;
 
@@ -749,7 +749,5 @@ namespace PortalApi.Repository
             }
 
         }
-
-
     }
 }

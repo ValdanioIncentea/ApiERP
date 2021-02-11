@@ -30,7 +30,7 @@ namespace PortalApi.Controllers
         public DocumentoComprasController()
         {
 
-            BSO = Singleton.AbrirEmpresaERPV10;
+            BSO = Singleton.AbrirEmpresaERPV10; 
 
         }
 
