@@ -10,5 +10,6 @@ namespace PortalApi.ViewModel
         public string Documento { get; set; }
         public string Descricao { get; set; }
         public string Modulo { get; set; }
+        public bool HasPrecoDeCustoMedio { get; set; }
     }
 }

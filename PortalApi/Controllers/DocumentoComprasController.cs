@@ -24,13 +24,13 @@ namespace PortalApi.Controllers
 
         private readonly DocumentosComprasRepository documentosComprasRepository = new DocumentosComprasRepository();
         private ErpBS BSO;
-        public static HttpClient clienteHttp; 
+        public static HttpClient clienteHttp;
         private readonly EntidadeRepository entidadeRepository = new EntidadeRepository();
 
         public DocumentoComprasController()
         {
-
-            BSO = Singleton.AbrirEmpresaERPV10; 
+            documentosComprasRepository.CriaCDUEmFaltaNasTabelas();
+            BSO = Singleton.AbrirEmpresaERPV10;
 
         }
 
@@ -38,7 +38,7 @@ namespace PortalApi.Controllers
         [HttpPost]
         public void IntegrarFornecedor(List<FornecedorViewModel> Fornecedores)
         {
-            entidadeRepository.IntegrarFornecedor(BSO,Fornecedores);
+            entidadeRepository.IntegrarFornecedor(BSO, Fornecedores);
         }
 
         [Route("api/erp/ExamOpenCompany")]
@@ -49,7 +49,7 @@ namespace PortalApi.Controllers
             try
             {
                 //var test = Singleton.AbrirEmpresaERPV10;
-                if(BSO != null)
+                if (BSO != null)
                 {
                     return "Empresa Aberta";
                 }
@@ -57,11 +57,11 @@ namespace PortalApi.Controllers
             }
             catch (Exception e)
             {
-                return "Empresa não aberta 2: "+e.Message;
-            }         
+                return "Empresa não aberta 2: " + e.Message;
+            }
 
         }
-        
+
         [Route("api/DocumentoInterno/Importar")]
         [HttpPost]
         public HttpResponseMessage IntegrarDocumentoInternosPeloPortal(List<DocumentoDeCompras> documentoDeCompras)
@@ -78,7 +78,7 @@ namespace PortalApi.Controllers
 
                 return Request.CreateResponse(HttpStatusCode.NotFound, e.Message);
             }
-            
+
         }
 
         [Route("api/DocumentoDeCompras/Importar")]
@@ -96,6 +96,15 @@ namespace PortalApi.Controllers
 
                 return Request.CreateResponse(HttpStatusCode.NotFound, e.Message);
             }
-        }          
+        }
+
+
+        [Route("api/Encomendas/Pagas")]
+        [HttpGet]
+        public List<ReferenciasViewModel> BuscarEncomendasPagas()
+        {
+            return documentosComprasRepository.BuscarDocumentosPagos();
+        }
+
     }
 }

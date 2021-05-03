@@ -25,6 +25,20 @@ namespace PortalApi.Controllers
             return dadosMestreRepository.BuscarSeguimentosTerceiros();
         }
         
+        [Route("api/DadosMestre/BuscarMoedas")]
+        [HttpGet]
+        public List<MoedaViewModel> BuscarMoedas()
+        {
+            return dadosMestreRepository.BuscarMoedas();
+        }
+        
+        [Route("api/DadosMestre/BuscarCambioHistorico")]
+        [HttpGet]
+        public List<MoedasHistoricoViewModel> BuscarCambioHistorico()
+        {
+            return dadosMestreRepository.BuscarCambioHistorico();
+        }
+        
         [Route("api/DadosMestre/BuscarDocumentosBancos")]
         [HttpGet]
         public List<DadosFornecedoViewModel> BuscarDocumentosBancos()
@@ -57,7 +71,7 @@ namespace PortalApi.Controllers
         [HttpGet]
         public List<MovimentosViewModel> BuscarMovimentosDosArtigos()
         {
-            return dadosMestreRepository.BuscarMovimentosDosArtigos();
+            return dadosMestreRepository.BuscarUltimoMovimentoPorArtigo();
         }  
         
         [Route("api/DadosMestre/Localizacoes")]
@@ -92,7 +106,7 @@ namespace PortalApi.Controllers
         [HttpGet]
         public List<ArtigoViewModel> BuscarTodosArtigos()
         {
-            return dadosMestreRepository.BuscarTodosArtigos();
+            return dadosMestreRepository.BuscarArtigos();
         }
 
         [Route("api/DadosMestre/Moedas")]

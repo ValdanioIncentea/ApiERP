@@ -25,10 +25,52 @@ namespace PortalApi.Repository
                 foreach (var _Fornecedor in Fornecedores)
                 {
 
-                    if (!BSO.Base.Fornecedores.Existe(_Fornecedor.Codigo))
+                    if (BSO.Base.Fornecedores.Existe(_Fornecedor.Codigo))
+                    {
+                       /* BasBEFornecedor FornecedorExistente = BSO.Base.Fornecedores.Edita(_Fornecedor.Codigo);
+                        FornecedorExistente.Fornecedor = _Fornecedor.Codigo;
+                        FornecedorExistente.Morada = _Fornecedor.Morada;
+                        FornecedorExistente.Localidade = _Fornecedor.Localidade;
+                        FornecedorExistente.CodigoPostal = _Fornecedor.CodigoPostal;
+                        FornecedorExistente.LocalidadeCodigoPostal = _Fornecedor.LocalidadeCodigoPostal;
+                        FornecedorExistente.Telefone = _Fornecedor.Telefone;
+                        FornecedorExistente.Fax = _Fornecedor.Fax;
+                        FornecedorExistente.SegmentoTerceiro = _Fornecedor.SegmentoTerceiro;
+                        FornecedorExistente.Moeda = _Fornecedor.Moeda;
+                        FornecedorExistente.Pais = _Fornecedor.Pais;
+                        FornecedorExistente.UtilizaIdioma = true;
+                        FornecedorExistente.PessoaSingular = _Fornecedor.PessoaSingular;
+                        FornecedorExistente.B2BEnderecoMail = _Fornecedor.Email;
+                        FornecedorExistente.Idioma = BSO.Base.Paises.DaValorAtributo(FornecedorExistente.Pais, "Idioma");
+
+                        if (FornecedorExistente.Pais == "AN")
+                        {
+                            FornecedorExistente.LocalOperacao = "0";
+                            FornecedorExistente.TipoMercado = "1";
+                        }
+                        else
+                        {
+                            FornecedorExistente.LocalOperacao = "3";
+                            FornecedorExistente.TipoMercado = "2";
+                            FornecedorExistente.RegimeIvaReembolsos = 5;
+                        }
+
+                        FornecedorExistente.CondPag = _Fornecedor.condPag;
+                        FornecedorExistente.ModoPag = "AMORT";
+                        FornecedorExistente.EnderecoWeb = _Fornecedor.Email;
+
+                        BSO.Base.Fornecedores.Actualiza(FornecedorExistente);*/
+
+                        CriaTDUparaEntidadesIntegradas();
+
+                        RefereciarEntidadesIntegradas(_Fornecedor.Codigo);
+
+                    }
+                    else
                     {
 
                         BasBEFornecedor Fornecedor = new BasBEFornecedor();
+
                         Fornecedor.Fornecedor = _Fornecedor.Codigo;
                         Fornecedor.Nome = _Fornecedor.Nome;
                         Fornecedor.NomeFiscal = _Fornecedor.NomeFiscal;
@@ -69,17 +111,18 @@ namespace PortalApi.Repository
 
                         RefereciarEntidadesIntegradas(_Fornecedor.Codigo);
 
-                        //int anoCBL = BSO.Contabilidade.ExerciciosCBL.DaUltimoAno();
-
-                        if (_Fornecedor.HasContabilidade)
-                            CriaContaCBL(BSO, _Fornecedor.Codigo, _Fornecedor.Nome, "F", DateTime.Now.Year, _Fornecedor.SegmentoTerceiro);
-
                     }
+
+                    //int anoCBL = BSO.Contabilidade.ExerciciosCBL.DaUltimoAno();
+
+                    if (_Fornecedor.HasContabilidade)
+                        CriaContaCBL(BSO, _Fornecedor.Codigo, _Fornecedor.Nome, "F", DateTime.Now.Year, _Fornecedor.SegmentoTerceiro);
+
                 }
             }
             catch (Exception e)
             {
-                _helperRepository.CriarLog("Integração", "Integração de Fornecedor: " + e.Message.ToString(), "Erro");
+                _helperRepository.CriarLog("Integração", "Integração de Fornecedor: " + e.Message.ToString()+ " | StackTrace: " + e.StackTrace + " | Inner Exeption " + e.InnerException, "Erro");
             }
 
         }

@@ -317,9 +317,12 @@
     <Compile Include="Repository\DocumentosComprasRepository.cs" />
     <Compile Include="Repository\HelperRepository.cs" />
     <Compile Include="Repository\RasteabilidadeRepository.cs" />
+    <Compile Include="ViewModel\ReferenciasViewModel.cs" />
     <Compile Include="ViewModel\DadosFornecedorViewModel.cs" />
     <Compile Include="ViewModel\DocumentoViewModel.cs" />
     <Compile Include="ViewModel\FornecedorViewModel.cs" />
+    <Compile Include="ViewModel\MoedasHistoricoViewModel.cs" />
+    <Compile Include="ViewModel\MoedaViewModel.cs" />
     <Compile Include="ViewModel\MovimentosViewModel.cs" />
     <Compile Include="ViewModel\LoteViewModel.cs" />
     <Compile Include="ViewModel\LocalizacaoViewModel.cs" />

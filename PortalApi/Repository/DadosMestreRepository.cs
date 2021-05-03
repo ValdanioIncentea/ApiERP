@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace PortalApi.Repository
 {
@@ -14,57 +15,80 @@ namespace PortalApi.Repository
 
         HelperRepository _helperRepository = new HelperRepository();
 
-        public List<MovimentosViewModel> BuscarMovimentosDosArtigos()
+        public List<MovimentosViewModel> BuscarUltimoMovimentoPorArtigo()
         {
+
+            DocumentosComprasRepository documentosComprasRepository = new DocumentosComprasRepository();
+
+            documentosComprasRepository.CriaCDUEmFaltaNasTabelas();
+            documentosComprasRepository.CriaTDUparaIntegracaoEmFalta();
 
             using (SqlConnection conexao = new SqlConnection(Singleton.ConnctionString))
             {
+
                 try
                 {
+
                     conexao.Open();
-
-                    DataTable Movimentos = new DataTable();
-
-                    //string queryCabe = "select ID,Artigo, Armazem,Localizacao,Lote, StockLot_Actual, StockLot_Anterior, StockArm_Actual, StockArm_Anterior, StockLoc_Actual, StockLoc_Anterior, TipoMovimento, Quantidade, Data,Stock_Actual, Stock_Anterior from INV_Movimentos order by Data desc";
-                    string queryCabe = "select ID,Artigo, Armazem,Localizacao,Lote, StockLot_Actual, StockLot_Anterior, StockArm_Actual, StockArm_Anterior, StockLoc_Actual, StockLoc_Anterior, TipoMovimento, Quantidade, Data,Stock_Actual, Stock_Anterior from INV_Movimentos"
-    + " where INV_Movimentos.Id not in ("
-    + " select m.Id from INV_movimentos m, INV_Origens o, INV_TiposOrigem Tpo, CabecInternos inte"
-    + " where m.IdOrigem = o.id  and Tpo.Id = o.IdTipoOrigem and tpo.Modulo = 'N'"
-    + " and inte.Id = o.IdChave1 and inte.CDU_PROCESSO is not null)"
-    + " order by Data";
-
-                    SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
-
-                    reader.Fill(Movimentos);
 
                     List<MovimentosViewModel> MovimentosLista = new List<MovimentosViewModel>();
 
-                    if (Movimentos.Rows.Count > 0)
+                    SqlDataAdapter readerArtigo = new SqlDataAdapter("select Artigo from Artigo where Artigo in (select Artigo From INV_Movimentos)", conexao);
+
+                    DataTable Artigos = new DataTable();
+
+                    readerArtigo.Fill(Artigos);
+
+                    if (Artigos.Rows.Count > 0)
                     {
 
-                        foreach (DataRow Linha in Movimentos.Rows)
+                        foreach (DataRow LinhaArtigo in Artigos.Rows)
                         {
 
-                            MovimentosViewModel _movimentoViewModel = new MovimentosViewModel();
+                            //string queryCabe = "select ID,Artigo, Armazem,Localizacao,Lote, StockLot_Actual, StockLot_Anterior, StockArm_Actual, StockArm_Anterior, StockLoc_Actual, StockLoc_Anterior, TipoMovimento, Quantidade, Data,Stock_Actual, Stock_Anterior from INV_Movimentos order by Data desc";
+                            string queryCabe = "select TOP(1) ID,Artigo, Armazem,Localizacao,Lote, StockLot_Actual, StockLot_Anterior, StockArm_Actual, StockArm_Anterior, StockLoc_Actual, StockLoc_Anterior, TipoMovimento, Quantidade, Data,Stock_Actual, Stock_Anterior from INV_Movimentos"
+                                                + " where Artigo = '" + LinhaArtigo["Artigo"] + "' AND INV_Movimentos.Id not in ("
+                                                + " select m.Id from INV_movimentos m, INV_Origens o, INV_TiposOrigem Tpo, CabecInternos inte"
+                                                + " where m.IdOrigem = o.id  and Tpo.Id = o.IdTipoOrigem and tpo.Modulo = 'N'"
+                                                + " and inte.Id = o.IdChave1 and inte.CDU_PROCESSO is not null)"
+                                                + " order by Data desc";
 
-                            _movimentoViewModel.Artigo = Linha["Artigo"].ToString();
-                            _movimentoViewModel.Armazem = Linha["Armazem"].ToString();
-                            _movimentoViewModel.Localizacao = Linha["Localizacao"].ToString();
-                            _movimentoViewModel.Lote = Linha["Lote"].ToString();
-                            _movimentoViewModel.StockLot_Actual = Convert.ToInt32(Linha["StockLot_Actual"]);
-                            _movimentoViewModel.StockLot_Anterior = Convert.ToInt32(Linha["StockLot_Anterior"]);
-                            _movimentoViewModel.StockArm_Actual = Convert.ToInt32(Linha["StockArm_Actual"]);
-                            _movimentoViewModel.StockArm_Anterior = Convert.ToInt32(Linha["StockArm_Anterior"]);
-                            _movimentoViewModel.StockLoc_Actual = Convert.ToInt32(Linha["StockLoc_Actual"]);
-                            _movimentoViewModel.StockLoc_Anterior = Convert.ToInt32(Linha["StockLoc_Anterior"]);
-                            _movimentoViewModel.TipoMovimento = Linha["TipoMovimento"].ToString();
-                            _movimentoViewModel.Quantidade = Convert.ToInt32(Linha["Quantidade"]);
-                            _movimentoViewModel.Data = Convert.ToDateTime(Linha["Data"]);
-                            _movimentoViewModel.Id = Guid.Parse(Linha["ID"].ToString());
-                            _movimentoViewModel.Stock_Actual = Convert.ToInt32(Linha["Stock_Actual"]);
-                            _movimentoViewModel.Stock_Anterior = Convert.ToInt32(Linha["Stock_Anterior"]);
+                            SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
 
-                            MovimentosLista.Add(_movimentoViewModel);
+                            DataTable Movimentos = new DataTable();
+
+                            reader.Fill(Movimentos);
+
+                            if (Movimentos.Rows.Count > 0)
+                            {
+
+                                foreach (DataRow Linha in Movimentos.Rows)
+                                {
+
+                                    MovimentosViewModel _movimentoViewModel = new MovimentosViewModel();
+
+                                    _movimentoViewModel.Artigo = Linha["Artigo"].ToString();
+                                    _movimentoViewModel.Armazem = Linha["Armazem"].ToString();
+                                    _movimentoViewModel.Localizacao = Linha["Localizacao"].ToString();
+                                    _movimentoViewModel.Lote = Linha["Lote"].ToString();
+                                    _movimentoViewModel.StockLot_Actual = Convert.ToInt32(Linha["StockLot_Actual"]);
+                                    _movimentoViewModel.StockLot_Anterior = Convert.ToInt32(Linha["StockLot_Anterior"]);
+                                    _movimentoViewModel.StockArm_Actual = Convert.ToInt32(Linha["StockArm_Actual"]);
+                                    _movimentoViewModel.StockArm_Anterior = Convert.ToInt32(Linha["StockArm_Anterior"]);
+                                    _movimentoViewModel.StockLoc_Actual = Convert.ToInt32(Linha["StockLoc_Actual"]);
+                                    _movimentoViewModel.StockLoc_Anterior = Convert.ToInt32(Linha["StockLoc_Anterior"]);
+                                    _movimentoViewModel.TipoMovimento = Linha["TipoMovimento"].ToString();
+                                    _movimentoViewModel.Quantidade = Convert.ToInt32(Linha["Quantidade"]);
+                                    _movimentoViewModel.Data = Convert.ToDateTime(Linha["Data"]);
+                                    _movimentoViewModel.Id = Guid.Parse(Linha["ID"].ToString());
+                                    _movimentoViewModel.Stock_Actual = Convert.ToInt32(Linha["Stock_Actual"]);
+                                    _movimentoViewModel.Stock_Anterior = Convert.ToInt32(Linha["Stock_Anterior"]);
+
+                                    MovimentosLista.Add(_movimentoViewModel);
+
+                                }
+
+                            }
 
                         }
 
@@ -252,7 +276,7 @@ namespace PortalApi.Repository
             }
         }
 
-        public List<ArtigoViewModel> BuscarTodosArtigos()
+        public List<ArtigoViewModel> BuscarArtigos()
         {
             using (SqlConnection conexao = new SqlConnection(Singleton.ConnctionString))
             {
@@ -263,7 +287,7 @@ namespace PortalApi.Repository
 
                     DataTable Artigos = new DataTable();
 
-                    string queryCabe = "select Artigo,ArmazemSugestao,Descricao,Familia,Iva,MovStock,UnidadeBase,DataUltimaActualizacao,UnidadeBase, UnidadeCompra, UnidadeEntrada,UnidadeSaida, UnidadeVenda FROM Artigo WHERE Familia is not null";
+                    string queryCabe = "select Artigo,ArmazemSugestao,Descricao,Familia,Iva,MovStock,UnidadeBase,DataUltimaActualizacao,UnidadeBase, UnidadeCompra, UnidadeEntrada,UnidadeSaida, UnidadeVenda,PCMedio FROM Artigo WHERE Familia is not null";
 
                     SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
 
@@ -290,6 +314,7 @@ namespace PortalApi.Repository
                             artigoViewModel.UnidadeEntrada = Linha["UnidadeEntrada"].ToString();
                             artigoViewModel.UnidadeSaida = Linha["UnidadeSaida"].ToString();
                             artigoViewModel.UnidadeVenda = Linha["UnidadeVenda"].ToString();
+                            artigoViewModel.PrecoDeCustoMedio = (double)Linha["PCMedio"];
                             artigoViewModel.DataUltimaActualizacao = Linha["DataUltimaActualizacao"].ToString();
 
                             ArtigosLista.Add(artigoViewModel);
@@ -377,7 +402,7 @@ namespace PortalApi.Repository
 
                     DataTable DocCompras = new DataTable();
 
-                    string queryCabe = "SELECT Documento,Descricao,Modulo='V' FrOM DocumentosVenda UNION SELECT Documento,Descricao,Modulo = 'C' FrOM DocumentosCompra UNION SELECT Documento,Descricao,Modulo = 'N' FROM DocumentosInternos";
+                    string queryCabe = "SELECT ActPCM,Documento,Descricao,Modulo='V' FrOM DocumentosVenda UNION SELECT ActPCM,Documento,Descricao,Modulo = 'C' FrOM DocumentosCompra UNION SELECT ActPCM,Documento,Descricao,Modulo = 'N' FROM DocumentosInternos";
 
                     SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
 
@@ -396,6 +421,7 @@ namespace PortalApi.Repository
                             DocCmp.Descricao = Linha["Descricao"].ToString();
                             DocCmp.Documento = Linha["Documento"].ToString();
                             DocCmp.Modulo = Linha["Modulo"].ToString();
+                            DocCmp.HasPrecoDeCustoMedio = (bool)Linha["ActPCM"];
 
                             ComprasLista.Add(DocCmp);
 
@@ -526,6 +552,48 @@ namespace PortalApi.Repository
             }
         }
 
+        public string BuscarMoeda(string Fornecedor)
+        {
+
+            using (SqlConnection conexao = new SqlConnection(Singleton.ConnctionString))
+            {
+
+                try
+                {
+                    conexao.Open();
+
+                    DataTable Cambios = new DataTable();
+
+                    string queryCabe = $"select Moeda from Fornecedores where Fornecedor = '{Fornecedor}'";
+
+                    SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
+
+                    reader.Fill(Cambios);
+
+                    if (Cambios.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow Linha in Cambios.Rows)
+                        {
+                            conexao.Close();
+                            return Convert.ToString(Linha["Moeda"]);
+                        }
+
+                    }
+
+                    conexao.Close();
+                    return null;
+
+                }
+                catch (Exception ex)
+                {
+                    conexao.Close();
+                    _helperRepository.CriarLog("Integração", "Metodo: BuscarMoeda " + ex.Message.ToString(), "Erro");
+                    throw;
+                }
+            }
+        }
+
         public List<EntidadesViewModel> BusarEntidades()
         {
 
@@ -539,14 +607,13 @@ namespace PortalApi.Repository
 
                     DataTable FamiliasDataTable = new DataTable();
 
-                    string queryCabe = "select e.Entidade,e.NomeFiscal,e.Nome,e.Localidade,e.Morada,e.NumContrib,p.Descricao,e.TipoEntidade, e.EnderecoWeb from v_entidades e, Paises p where p.Pais = e.Pais AND TipoEntidade in ('R','C','F','D')";
+                    string queryCabe = "select e.Entidade,e.NomeFiscal,e.Nome,e.Localidade,e.Morada,e.NumContrib,p.Descricao,e.TipoEntidade, e.EnderecoWeb,p.Pais from v_entidades e, Paises p where p.Pais = e.Pais AND TipoEntidade in ('R','C','F','D')";
 
                     SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
 
                     reader.Fill(FamiliasDataTable);
 
                     List<EntidadesViewModel> Entidades = new List<EntidadesViewModel>();
-
 
                     if (FamiliasDataTable.Rows.Count > 0)
                     {
@@ -562,9 +629,11 @@ namespace PortalApi.Repository
                                 Localidade = Linha["Localidade"].ToString(),
                                 Morada = Linha["Morada"].ToString(),
                                 NumContribuinte = Linha["NumContrib"].ToString(),
-                                Pais = Linha["Descricao"].ToString(),
+                                Pais = Convert.ToString(Linha["Descricao"]),
+                                AbrevicaoPais = Convert.ToString(Linha["Pais"]),
                                 Tipo = Linha["TipoEntidade"].ToString(),
-                                Email = Linha["EnderecoWeb"].ToString()
+                                Email = Linha["EnderecoWeb"].ToString(),
+                                Moeda = Linha["TipoEntidade"].ToString() == "F" ? BuscarMoeda(Linha["Entidade"].ToString()) : null
                             };
 
                             Entidades.Add(entidadeViewModel);
@@ -1006,7 +1075,119 @@ namespace PortalApi.Repository
 
             }
 
-        } 
+        }
+
+        public List<MoedaViewModel> BuscarMoedas()
+        {
+
+            using (SqlConnection conexao = new SqlConnection(Singleton.ConnctionString))
+            {
+
+                try
+                {
+
+                    conexao.Open();
+
+                    DataTable Tabela = new DataTable();
+
+                    string queryCabe = "select Moeda,Descricao,Compra, Venda,ISO4217 from Moedas";
+
+                    SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
+
+                    reader.Fill(Tabela);
+
+                    List<MoedaViewModel> Moedas = new List<MoedaViewModel>();
+
+                    if (Tabela.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow Linha in Tabela.Rows)
+                        {
+
+                            MoedaViewModel Moeda = new MoedaViewModel();
+
+                            Moeda.Moeda = Linha["Moeda"].ToString();
+                            Moeda.Descricao = Linha["Descricao"].ToString();
+                            Moeda.Compra = Convert.ToSingle(Linha["Compra"].ToString());
+                            Moeda.Venda = Convert.ToSingle(Linha["Venda"].ToString());
+                            Moeda.ISO4217 = Linha["ISO4217"].ToString();
+
+                            Moedas.Add(Moeda);
+
+                        }
+
+                    }
+
+                    conexao.Close();
+                    return Moedas;
+
+                }
+                catch (Exception ex)
+                {
+                    conexao.Close();
+                    _helperRepository.CriarLog("Integração", "Metodo : BuscarMoedas" + ex.Message.ToString(), "Erro");
+                    throw;
+                }
+
+            }
+
+        }
+
+        public List<MoedasHistoricoViewModel> BuscarCambioHistorico()
+        {
+
+            using (SqlConnection conexao = new SqlConnection(Singleton.ConnctionString))
+            {
+
+                try
+                {
+
+                    conexao.Open();
+
+                    DataTable Tabela = new DataTable();
+
+                    string queryCabe = "select Moeda, Data, DataCambio, Compra, Venda from MoedasHistorico";
+
+                    SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
+
+                    reader.Fill(Tabela);
+
+                    List<MoedasHistoricoViewModel> Cambios = new List<MoedasHistoricoViewModel>();
+
+                    if (Tabela.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow Linha in Tabela.Rows)
+                        {
+
+                            MoedasHistoricoViewModel Cambio = new MoedasHistoricoViewModel();
+
+                            Cambio.Moeda = Linha["Moeda"].ToString();
+                            Cambio.Data = Convert.ToDateTime(Linha["Data"]);
+                            Cambio.DataCambio = Convert.ToDateTime(Linha["DataCambio"]);
+                            Cambio.Compra = Convert.ToSingle(Linha["Compra"].ToString());
+                            Cambio.Venda = Convert.ToSingle(Linha["Venda"].ToString());
+
+                            Cambios.Add(Cambio);
+
+                        }
+
+                    }
+
+                    conexao.Close();
+                    return Cambios;
+
+                }
+                catch (Exception ex)
+                {
+                    conexao.Close();
+                    _helperRepository.CriarLog("Integração", "Metodo : BuscarCambioHistorico" + ex.Message.ToString(), "Erro");
+                    throw;
+                }
+
+            }
+
+        }
 
         public List<DadosFornecedoViewModel> BuscarDocumentosBancos()
         {
@@ -1059,8 +1240,8 @@ namespace PortalApi.Repository
 
             }
 
-        } 
-        
+        }
+
         public List<DadosFornecedoViewModel> BuscarCondicaoDePagamentos()
         {
 

@@ -55,44 +55,21 @@ namespace PortalApi.Repository
 
                     if (!VeriricarSeNumeroDeProcessoExisteNoDocumentoDeCompras(documentoDeCompras.NumeroDeProcesso, documentoDeCompras.CodigoPortal, documentoDeCompras.Tipodoc, documentoDeCompras.Entidade))
                     {
+
                         CmpBEDocumentoCompra documento = new CmpBEDocumentoCompra();
 
                         DocumentoActual = documentoDeCompras;
-
+                        TipoDeDocumento = documentoDeCompras.Tipodoc;
                         documento.Tipodoc = documentoDeCompras.Tipodoc;
                         documento.TipoEntidade = documentoDeCompras.TipoEntidade;
                         documento.Entidade = documentoDeCompras.Entidade;
                         documento.NumDocExterno = documentoDeCompras.NumDocExterno;
-                        TipoDeDocumento = documento.Tipodoc;
+                        documento.CamposUtil["CDU_PROCESSO"].Valor = documentoDeCompras.NumDocExterno;
+                        documento.Utilizador = documentoDeCompras.Utilizador;
+
                         BSO.Compras.Documentos.PreencheDadosRelacionados(documento);
 
                         documento.DataDoc = documentoDeCompras.DataDoc;
-
-                        var rs = DateTime.Compare(documentoDeCompras.DataDoc.Date, DateTime.Now.Date);
-
-                        if (rs < 0)
-                        {
-
-                            double CambioDoDia = BuscarCambio(documentoDeCompras.DataDoc, documentoDeCompras.Moeda);
-
-                            if (BSO.Contexto.SentidoCambios == Constante.SentidoDireito)
-                            {
-                                documento.CambioMBase = CambioDoDia;
-                                documento.CambioMAlt = 1;
-                                documento.Cambio = CambioDoDia;
-                            }
-                            else
-                            {
-                                documento.CambioMBase = 1;
-                                documento.CambioMAlt = CambioDoDia;
-                                documento.Cambio = 1;
-                            }
-
-                        }
-
-                        documento.Moeda = documentoDeCompras.Moeda;
-                        documento.Serie = BSO.Base.Series.DaSerieDefeito("C", documento.Tipodoc, documento.DataDoc);
-                        documento.CamposUtil["CDU_PROCESSO"].Valor = documentoDeCompras.NumeroDeProcesso;
 
                         int linhaNumero = 0;
 
@@ -112,17 +89,16 @@ namespace PortalApi.Repository
                                 var Serie = LinhaDoDocumento.Rows[0]["Serie"].ToString();
                                 var NumDoc = Convert.ToInt32(LinhaDoDocumento.Rows[0]["NumDoc"]);
                                 var NumLinha = Convert.ToInt32(LinhaDoDocumento.Rows[0]["NumLinha"]);
-
-                                float TaxaIva = Convert.ToSingle(linhaDocumento.TaxaIva);
+                                string Codiva = linhaDocumento.TaxaIva.ToString();
+                                float TaxaIva = linhaDocumento.TaxaIva != 14 ? 0 : 14;
 
                                 BSO.Compras.Documentos.AdicionaLinhaTransformada(documento, DocumentoAnterior, NumDoc, NumLinha, ref Filial, ref Serie);
 
-                                documento.Linhas.GetEdita(linhaNumero).Descricao = linhaDocumento.Descricao;
                                 documento.Linhas.GetEdita(linhaNumero).PrecUnit = linhaDocumento.Preco;
                                 documento.Linhas.GetEdita(linhaNumero).Desconto1 = Convert.ToSingle(linhaDocumento.Desconto);
                                 documento.Linhas.GetEdita(linhaNumero).TaxaIva = TaxaIva;
                                 documento.Linhas.GetEdita(linhaNumero).CamposUtil["CDU_PROCESSO"].Valor = linhaDocumento.NumeroDeProcesso;
-                                documento.Linhas.GetEdita(linhaNumero).CodIva = Convert.ToString(buscarCodigoDoImpostoIva(TaxaIva, documento.DataDoc));
+                                documento.Linhas.GetEdita(linhaNumero).CodIva = Codiva;
 
                             }
 
@@ -137,7 +113,6 @@ namespace PortalApi.Repository
                             if (Id == null)
                             {
                                 _helperRepository.CriarLog("Integração", "Não foi encontrado o ID do documento pai do documento: " + documentoDeCompras.Tipodoc + "/" + documentoDeCompras.NumeroDeProcesso, "Erro");
-                                return false;
                             }
 
                             var DocumentoDePedidoDeCotacao = _rasteabilidadeRepository.PesquisarDoDocumetoPorId(Id);
@@ -149,27 +124,24 @@ namespace PortalApi.Repository
 
                                 linhaNumero++;
 
-                                DataRow[] CotacoesDoFornecedor = dt_Linhas.Select($"Artigo='{linhaDocumento.Artigo}'");
+                                DataRow[] CotacoesDoFornecedor = dt_Linhas.Select($"Artigo={linhaDocumento.Artigo}");
 
                                 var Linha = CotacoesDoFornecedor.First();
 
                                 var Filial = DocumentoDePedidoDeCotacao["Filial"];
                                 var Serie = DocumentoDePedidoDeCotacao["Serie"];
                                 var NumDoc = Convert.ToInt32(DocumentoDePedidoDeCotacao["NumDoc"]);
-
-                                float TaxaIva = Convert.ToSingle(linhaDocumento.TaxaIva);
+                                string Codiva = linhaDocumento.TaxaIva.ToString();
+                                float TaxaIva = linhaDocumento.TaxaIva != 14 ? 0 : 14;
 
                                 BSO.Compras.Documentos.AdicionaLinhaTransformada(documento, DocumentoAnterior, NumDoc, Convert.ToInt32(Linha["NumLinha"]), ref Filial, ref Serie);
 
-                                documento.Linhas.GetEdita(linhaNumero).Descricao = linhaDocumento.Descricao;
                                 documento.Linhas.GetEdita(linhaNumero).PrecUnit = linhaDocumento.Preco;
                                 documento.Linhas.GetEdita(linhaNumero).Desconto1 = Convert.ToSingle(linhaDocumento.Desconto);
                                 documento.Linhas.GetEdita(linhaNumero).TaxaIva = TaxaIva;
                                 documento.Linhas.GetEdita(linhaNumero).Quantidade = linhaDocumento.Quantidade;
-                                documento.Linhas.GetEdita(linhaNumero).Armazem = linhaDocumento.Armazem;
-                                documento.Linhas.GetEdita(linhaNumero).Localizacao = linhaDocumento.Localizacao;
                                 documento.Linhas.GetEdita(linhaNumero).CamposUtil["CDU_PROCESSO"].Valor = linhaDocumento.NumeroDeProcesso;
-                                documento.Linhas.GetEdita(linhaNumero).CodIva = Convert.ToString(buscarCodigoDoImpostoIva(TaxaIva, documento.DataDoc));
+                                documento.Linhas.GetEdita(linhaNumero).CodIva = Codiva;
 
                             }
 
@@ -186,14 +158,15 @@ namespace PortalApi.Repository
                                 string Armazem = linhaDocumento.Armazem;
 
                                 BSO.Compras.Documentos.AdicionaLinha(documento, linhaDocumento.Artigo, ref Quantidade, ref Armazem, ref Armazem, linhaDocumento.Preco, Convert.ToDouble(linhaDocumento.Desconto));
-                                float TaxaIva = Convert.ToSingle(linhaDocumento.TaxaIva);
+                                string Codiva = linhaDocumento.TaxaIva.ToString();
+                                float TaxaIva = linhaDocumento.TaxaIva != 14 ? 0 : 14;
                                 documento.Linhas.GetEdita(linhaNumero).Unidade = linhaDocumento.Unidade;
                                 documento.Linhas.GetEdita(linhaNumero).Descricao = linhaDocumento.Descricao;
                                 documento.Linhas.GetEdita(linhaNumero).DataEntrega = documento.DataDoc;
                                 documento.Linhas.GetEdita(linhaNumero).CCustoCBL = linhaDocumento.CentroDeCusto;
                                 documento.Linhas.GetEdita(linhaNumero).TaxaIva = TaxaIva;
                                 documento.Linhas.GetEdita(linhaNumero).CamposUtil["CDU_PROCESSO"].Valor = linhaDocumento.NumeroDeProcesso;
-                                documento.Linhas.GetEdita(linhaNumero).CodIva = Convert.ToString(buscarCodigoDoImpostoIva(TaxaIva, documento.DataDoc));
+                                documento.Linhas.GetEdita(linhaNumero).CodIva = Codiva;
 
                             }
                         }
@@ -201,7 +174,8 @@ namespace PortalApi.Repository
                         if (documento.Linhas.NumItens > 0)
                         {
 
-                            BSO.Compras.Documentos.CalculaValoresTotais(documento);
+                            //BSO.Compras.Documentos.CalculaValoresTotais(documento);
+
                             if (!VeriricarSeNumeroDeProcessoExisteNoDocumentoDeCompras(documentoDeCompras.NumeroDeProcesso, documentoDeCompras.CodigoPortal, documentoDeCompras.Tipodoc, documentoDeCompras.Entidade))
                             {
                                 BSO.Compras.Documentos.Actualiza(documento);
@@ -235,7 +209,7 @@ namespace PortalApi.Repository
 
                 BSO.FechaEmpresaTrabalho();
 
-                _helperRepository.CriarLog("Integração", "Integração de Documento de Compra: " + TipoDeDocumento + " - " + e.Message.ToString(), "Erro");
+                _helperRepository.CriarLog("Integração", "Integração de Documento de Compra: " + e.Message.ToString(), "Erro");
 
                 return false;
 
@@ -294,13 +268,14 @@ namespace PortalApi.Repository
                         var rs = DateTime.Compare(documentoDeCompras.DataDoc.Date, DateTime.Now.Date);
                         if (rs < 0)
                         {
+
                             double CambioDoDia = BuscarCambio(documentoDeCompras.DataDoc, documentoDeCompras.Moeda);
 
                             if (BSO.Contexto.SentidoCambios == Constante.SentidoDireito)
                             {
                                 documento.CambioMBase = CambioDoDia;
-                                documento.CambioMAlt = 1;
                                 documento.Cambio = CambioDoDia;
+                                documento.CambioMAlt = 1;
                             }
                             else
                             {
@@ -316,6 +291,7 @@ namespace PortalApi.Repository
                         documento.Destinatario = ConfigurationManager.AppSettings["Destinatario"].ToString();
                         documento.Requisitante = ConfigurationManager.AppSettings["Requisitante"].ToString();
                         documento.CamposUtil["CDU_PROCESSO"].Valor = documentoDeCompras.NumeroDeProcesso;
+                        documento.Utilizador = documentoDeCompras.Utilizador;
 
                         int linhaNumero = 0;
 
@@ -667,9 +643,11 @@ namespace PortalApi.Repository
         public void CriaCDUEmFaltaNasTabelas()
         {
 
-            string[] Tabelas = { "LinhasCompras", "LinhasInternos", "CabecInternos", "CabecCompras" };
+            string[] Tabelas = { "LinhasCompras", "LinhasInternos", "CabecInternos", "CabecCompras", "Historico" };
+            string[] Colunas = { "CDU_REFENC", "CDU_PROCESSO", "CDU_PAGA" };
 
             SqlCommand Comando = new SqlCommand();
+            SqlCommand Comando2 = new SqlCommand();
 
             using (SqlConnection conexao = new SqlConnection(Singleton.ConnctionString))
             {
@@ -682,13 +660,18 @@ namespace PortalApi.Repository
                     for (int i = 0; i < Tabelas.Length; i++)
                     {
 
-                        Comando.CommandText = $"IF NOT EXISTS(SELECT id FROM syscolumns WHERE id=OBJECT_ID('" + Tabelas[i] + "','u') and name='CDU_PROCESSO')"
-                        + "BEGIN ALTER TABLE " + Tabelas[i] + " ADD CDU_PROCESSO varchar(100)"
-                           + "Insert into StdCamposVar(Tabela, Campo, Descricao, Texto, Visivel, DadosSensiveis) Values('" + Tabelas[i] + "', 'CDU_PROCESSO', 'Campo de Utilizador', 'Campo_integracao', 0, 0)"
-                        + "END";
-                        Comando.CommandType = CommandType.Text;
-                        Comando.Connection = conexao;
-                        Comando.ExecuteNonQuery();
+                        for (int j = 0; j < Colunas.Length; j++)
+                        {
+
+                            Comando.CommandText = $"IF NOT EXISTS(SELECT id FROM syscolumns WHERE id=OBJECT_ID('" + Tabelas[i] + "','u') and name='" + Colunas[j] + "')"
+                            + "BEGIN ALTER TABLE " + Tabelas[i] + " ADD " + Colunas[j] + " varchar(100)"
+                               + "Insert into StdCamposVar(Tabela, Campo, Descricao, Texto, Visivel, DadosSensiveis) Values('" + Tabelas[i] + "', '" + Colunas[j] + "', 'Campo de Utilizador', 'Campo_integracao', 0, 0)"
+                            + "END";
+                            Comando.CommandType = CommandType.Text;
+                            Comando.Connection = conexao;
+                            Comando.ExecuteNonQuery();
+
+                        }
 
                     }
 
@@ -749,5 +732,54 @@ namespace PortalApi.Repository
             }
 
         }
+
+        public List<ReferenciasViewModel> BuscarDocumentosPagos()
+        {
+            using (SqlConnection conexao = new SqlConnection(Singleton.ConnctionString))
+            {
+
+                try
+                {
+
+                    conexao.Open();
+
+                    DataTable Centros = new DataTable();
+
+                    string queryCabe = "select cdu_processo from cabeccompras where cdu_paga = '1'";
+
+                    SqlDataAdapter reader = new SqlDataAdapter(queryCabe, conexao);
+
+                    reader.Fill(Centros);
+
+                    List<ReferenciasViewModel> Referencias = new List<ReferenciasViewModel>();
+
+                    if (Centros.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow Linha in Centros.Rows)
+                        {
+
+                            ReferenciasViewModel ReferenciasViewModel = new ReferenciasViewModel();
+
+                            ReferenciasViewModel.Referencia = Linha["cdu_processo"].ToString();
+
+                            Referencias.Add(ReferenciasViewModel);
+
+                        }
+
+                    }
+                    conexao.Close();
+                    return Referencias;
+
+                }
+                catch (Exception ex)
+                {
+                    conexao.Close();
+                    _helperRepository.CriarLog("Integração", "Metodo: BuscarDocumentosPagos: " + ex.Message.ToString(), "Erro");
+                    throw;
+                }
+            }
+        }
+
     }
 }

@@ -7,7 +7,6 @@ namespace PortalApi.Models
 {
     public class DocumentoDeCompras
     {
-
         public int CodigoPortal { get; set; }
         public string Tipodoc { get; set; }
         public string TipoEntidade { get; set; }
@@ -24,6 +23,7 @@ namespace PortalApi.Models
         public string QuartoDocumento { get; set; }
         public string QuintoDocumento { get; set; }
         public string SextoDocumento { get; set; }
+        public string Utilizador { get; set; }
         public virtual List<LinhasCompras> Linhas { get; set; }
     }
 }

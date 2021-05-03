@@ -19,6 +19,7 @@ namespace PortalApi.ViewModel
         public string UnidadeEntrada { get; set; }
         public string UnidadeSaida { get; set; }
         public string UnidadeVenda { get; set; }
+        public double PrecoDeCustoMedio { get; set; }
 
     }
 }
